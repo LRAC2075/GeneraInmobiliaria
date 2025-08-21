@@ -1,14 +1,45 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import { useModal } from '../context/ModalContext';
 
-// Componente reutilizable para las secciones de servicio
+// Hook genérico para observar la intersección
+const useIntersectionObserver = (options) => {
+  const [entry, setEntry] = useState(null);
+  const [node, setNode] = useState(null);
+  const observer = useRef(null);
+
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new window.IntersectionObserver(([entry]) => setEntry(entry), options);
+    const { current: currentObserver } = observer;
+    if (node) currentObserver.observe(node);
+    return () => currentObserver.disconnect();
+  }, [node, options]);
+
+  return [setNode, entry?.isIntersecting];
+};
+
+// Componente animado reutilizable que envuelve cada sección
+const AnimatedSection = ({ children, className = '' }) => {
+  const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+  return (
+    <section 
+      ref={setNode}
+      className={`${className} transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+    >
+      {children}
+    </section>
+  );
+};
+
+// Componente para las secciones de servicio
 const ServiceSection = ({ imageUrl, title, description, linkTo, imageLeft = false }) => {
   const imageOrder = imageLeft ? 'md:order-1' : 'md:order-2';
   const textOrder = imageLeft ? 'md:order-2' : 'md:order-1';
 
   return (
-    <section className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
+    <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className={imageOrder}>
@@ -26,18 +57,17 @@ const ServiceSection = ({ imageUrl, title, description, linkTo, imageLeft = fals
           </div>
         </div>
       </div>
-    </section>
+    </AnimatedSection>
   );
 };
 
-
+// Componente principal de la página de inicio
 const HomePage = () => {
   const { openModal } = useModal();
   const heroBackgroundImage = 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop';
 
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
-      {/* 1. Hero Section */}
       <section
         className="relative h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-center"
         style={{ backgroundImage: `url(${heroBackgroundImage})` }}
@@ -64,17 +94,15 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* 2. Sección "Acerca de Nosotros" */}
-      <section className="py-16 sm:py-24">
+      <AnimatedSection className="py-16 sm:py-24">
         <div className="container mx-auto px-4">
            <SectionHeader 
             title="Nuestras Capacidades"
             subtitle="Con más de una década de experiencia, fusionamos creatividad, precisión y tecnología para entregar resultados excepcionales. Nuestra filosofía se centra en la excelencia y la innovación, garantizando que cada proyecto no solo cumpla, sino que supere las expectativas."
           />
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* 3. Secciones de Servicios */}
       <ServiceSection
         imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop"
         title="Desarrollo Inmobiliario"
@@ -97,8 +125,7 @@ const HomePage = () => {
         imageLeft={true}
       />
 
-      {/* 4. Call to Action Final */}
-      <section className="py-16 sm:py-24 text-center bg-light-subtle dark:bg-gray-800">
+      <AnimatedSection className="py-16 sm:py-24 text-center bg-light-subtle dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-light-text dark:text-white mb-4">¿Tienes un proyecto en mente?</h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
@@ -111,7 +138,7 @@ const HomePage = () => {
             Contáctanos
           </button>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };
