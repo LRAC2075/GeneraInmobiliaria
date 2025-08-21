@@ -1,14 +1,14 @@
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {
-  // Estilo para el enlace activo, ahora con el color dorado
   const activeLinkStyle = {
-    color: '#c3a478', // Usamos el color brand-gold
+    color: '#c3a478',
     textDecoration: 'underline',
   };
 
   return (
-    <header className="bg-brand-dark border-b border-gray-700 sticky top-0 z-10">
+    // Añadimos 'relative' y 'z-20' para asegurar que esté por encima del contenido
+    <header className="bg-brand-dark border-b border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-5 flex justify-between items-center">
         <NavLink to="/">
           <h1 className="text-2xl font-bold text-white tracking-wider">MiProyecto</h1>

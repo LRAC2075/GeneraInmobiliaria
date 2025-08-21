@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getPropiedades } = require('../controllers/inmobiliariaController');
+const { getPropiedades, getPropiedadById } = require('../controllers/inmobiliariaController');
 
-// Define la ruta GET para obtener todas las propiedades
-// Corresponderá a la URL: /api/inmobiliaria/propiedades
+// Ruta para obtener todas las propiedades
 router.get('/propiedades', getPropiedades);
+
+// NUEVA RUTA: Obtener una propiedad específica por su ID
+router.get('/propiedades/:id', getPropiedadById);
 
 module.exports = router;
