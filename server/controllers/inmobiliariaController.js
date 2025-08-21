@@ -4,21 +4,24 @@ const getPropiedades = (req, res) => {
   const propiedadesSimuladas = [
     {
       id: 'prop1',
-      titulo: 'Apartamento Moderno en el Centro',
-      descripcion: 'Un hermoso apartamento con 2 habitaciones y vistas a la ciudad.',
-      precio: 250000,
+      nombre: 'Villa de Lujo con Vista al Mar',
+      ubicacion: 'Costa Esmeralda, Cancún',
+      precio: 1250000,
+      imagenUrl: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop'
     },
     {
       id: 'prop2',
-      titulo: 'Casa Familiar con Jardín',
-      descripcion: 'Espaciosa casa con 4 habitaciones, ideal para una familia.',
-      precio: 450000,
+      nombre: 'Penthouse Moderno en el Centro',
+      ubicacion: 'Polanco, Ciudad de México',
+      precio: 850000,
+      imagenUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop'
     },
     {
       id: 'prop3',
-      titulo: 'Loft Industrial con Terraza',
-      descripcion: 'Loft de diseño único con una gran terraza privada.',
-      precio: 320000,
+      nombre: 'Hacienda Colonial Restaurada',
+      ubicacion: 'San Miguel de Allende, Guanajuato',
+      precio: 980000,
+      imagenUrl: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070&auto=format&fit=crop'
     },
   ];
 
@@ -29,3 +32,4 @@ const getPropiedades = (req, res) => {
 module.exports = {
   getPropiedades,
 };
+

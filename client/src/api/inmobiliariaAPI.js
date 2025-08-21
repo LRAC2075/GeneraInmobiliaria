@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// La URL base de la API apuntará al servidor backend.
-// En desarrollo, podría ser 'http://localhost:5001'.
-// En producción, será la URL de tu Cloud Function o Cloud Run.
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 const inmobiliariaAPI = axios.create({
@@ -11,7 +8,8 @@ const inmobiliariaAPI = axios.create({
 
 export const getPropiedades = async () => {
   try {
-    const response = await inmobiliariaAPI.get('/inmobiliaria');
+    // Se corrige la URL para apuntar al endpoint correcto: /inmobiliaria/propiedades
+    const response = await inmobiliariaAPI.get('/inmobiliaria/propiedades');
     return response.data;
   } catch (error) {
     console.error("Error al obtener las propiedades:", error);

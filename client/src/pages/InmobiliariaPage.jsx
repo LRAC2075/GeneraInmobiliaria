@@ -25,17 +25,21 @@ const InmobiliariaPage = () => {
   }, []);
 
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">Propiedades Disponibles</h2>
-      {loading && <p>Cargando propiedades...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="container mx-auto px-4 py-12">
+      <h2 className="text-4xl font-bold mb-10 text-center text-white">Propiedades Exclusivas</h2>
+      {loading && <p className="text-center text-gray-400">Cargando propiedades...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
       {!loading && !error && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {propiedades.map((prop) => (
-            <div key={prop.id} className="border rounded-lg p-4 shadow-lg bg-white">
-              <h3 className="text-xl font-semibold mb-2">{prop.titulo}</h3>
-              <p className="text-gray-600">{prop.descripcion}</p>
-              <p className="text-lg font-bold mt-4 text-blue-600">${prop.precio.toLocaleString()}</p>
+            // Tarjeta de propiedad rediseñada para mostrar la nueva data
+            <div key={prop.id} className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg hover:border-brand-gold transition-all duration-300 transform hover:-translate-y-1">
+              <img src={prop.imagenUrl} alt={prop.nombre} className="w-full h-56 object-cover" />
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold mb-2 text-white">{prop.nombre}</h3>
+                <p className="text-gray-400 mb-4">{prop.ubicacion}</p>
+                <p className="text-2xl font-bold mt-4 text-brand-gold">${prop.precio.toLocaleString()}</p>
+              </div>
             </div>
           ))}
         </div>
