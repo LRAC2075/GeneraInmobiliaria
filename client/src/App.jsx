@@ -1,23 +1,44 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { ModalProvider, useModal } from './context/ModalContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ContactoPage from './pages/ContactoPage'; // Se importa una sola vez aquí
 import HomePage from './pages/HomePage';
 import InmobiliariaPage from './pages/InmobiliariaPage';
+import PropiedadPage from './pages/PropiedadPage';
 import CateringPage from './pages/CateringPage';
 import TecnologiaPage from './pages/TecnologiaPage';
-import PropiedadPage from './pages/PropiedadPage';
-import ContactoPage from './pages/ContactoPage'; // 1. Importar la nueva página
 
-// Componente interno para manejar la lógica de la ruta
+// Componente para el Modal Global
+const GlobalContactModal = () => {
+  const { isModalOpen, closeModal } = useModal();
+  if (!isModalOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      onClick={closeModal}
+    >
+      <div 
+        className="bg-light-card dark:bg-gray-900 rounded-lg shadow-2xl w-full max-w-lg relative"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Se utiliza el componente ContactoPage importado */}
+        <ContactoPage isModal={true} closeModal={closeModal} />
+      </div>
+    </div>
+  );
+};
+
+// Componente principal del layout
 const AppContent = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
   return (
-    // Contenedor principal que ocupa toda la pantalla
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-light-bg text-light-text dark:bg-brand-dark dark:text-gray-200">
       <Header />
-      {/* El 'main' ahora es flexible y crecerá para ocupar el espacio disponible */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -25,22 +46,25 @@ const AppContent = () => {
           <Route path="/inmobiliaria/:id" element={<PropiedadPage />} />
           <Route path="/catering" element={<CateringPage />} />
           <Route path="/tecnologia" element={<TecnologiaPage />} />
-          {/* 2. Añadir la nueva ruta de contacto */}
-          <Route path="/contacto" element={<ContactoPage />} />
+          {/* La ruta a /contacto ya no es necesaria porque se maneja con el modal */}
         </Routes>
       </main>
-      {/* El footer solo se muestra si NO estamos en la HomePage */}
+      <GlobalContactModal />
       {!isHomePage && <Footer />}
     </div>
   );
 };
 
-
+// Componente raíz de la aplicación
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <ThemeProvider>
+      <ModalProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ModalProvider>
+    </ThemeProvider>
   );
 }
 
