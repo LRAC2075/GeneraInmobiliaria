@@ -6,6 +6,7 @@ import InmobiliariaPage from './pages/InmobiliariaPage';
 import CateringPage from './pages/CateringPage';
 import TecnologiaPage from './pages/TecnologiaPage';
 import PropiedadPage from './pages/PropiedadPage';
+import ContactoPage from './pages/ContactoPage'; // 1. Importar la nueva página
 
 // Componente interno para manejar la lógica de la ruta
 const AppContent = () => {
@@ -14,7 +15,7 @@ const AppContent = () => {
 
   return (
     // Contenedor principal que ocupa toda la pantalla
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <Header />
       {/* El 'main' ahora es flexible y crecerá para ocupar el espacio disponible */}
       <main className="flex-grow">
@@ -24,6 +25,8 @@ const AppContent = () => {
           <Route path="/inmobiliaria/:id" element={<PropiedadPage />} />
           <Route path="/catering" element={<CateringPage />} />
           <Route path="/tecnologia" element={<TecnologiaPage />} />
+          {/* 2. Añadir la nueva ruta de contacto */}
+          <Route path="/contacto" element={<ContactoPage />} />
         </Routes>
       </main>
       {/* El footer solo se muestra si NO estamos en la HomePage */}

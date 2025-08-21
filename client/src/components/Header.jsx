@@ -7,7 +7,6 @@ const Header = () => {
   };
 
   return (
-    // Añadimos 'relative' y 'z-20' para asegurar que esté por encima del contenido
     <header className="bg-brand-dark border-b border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-5 flex justify-between items-center">
         <NavLink to="/">
@@ -17,6 +16,8 @@ const Header = () => {
           <li><NavLink to="/inmobiliaria" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-brand-gold transition-colors">Inmobiliaria</NavLink></li>
           <li><NavLink to="/catering" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-brand-gold transition-colors">Catering</NavLink></li>
           <li><NavLink to="/tecnologia" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-brand-gold transition-colors">Tecnología</NavLink></li>
+          {/* Nuevo enlace a la página de contacto */}
+          <li><NavLink to="/contacto" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-brand-gold transition-colors">Contacto</NavLink></li>
         </ul>
       </nav>
     </header>
