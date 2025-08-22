@@ -3,7 +3,7 @@ import { Cpu, Lightbulb, MonitorPlay, Puzzle } from 'lucide-react';
 import { useModal } from '../context/ModalContext.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 
-// --- Componentes y Hooks Reutilizables (Asumimos que existen en tu proyecto) ---
+// --- Componentes y Hooks Reutilizables ---
 
 const useAnimateOnScroll = () => {
   const ref = useRef(null);
@@ -91,8 +91,11 @@ export default function TecnologiaPage() {
 
   return (
     <div className="bg-white dark:bg-gray-900">
-      {/* --- Hero Banner --- */}
-      <section className="relative h-[60vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center text-white" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80')" }}>
+      {/* --- Hero Banner (IMAGEN ACTUALIZADA) --- */}
+      <section 
+        className="relative h-[60vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center text-white" 
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80')" }}
+      >
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <AnimatedSection className="relative z-10 text-center p-4">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">Diseñando el Futuro, Iluminando el Presente</h1>
@@ -138,7 +141,6 @@ export default function TecnologiaPage() {
               />
             </AnimatedSection>
             <div className="relative flex flex-col md:flex-row justify-between max-w-5xl mx-auto mt-12 space-y-8 md:space-y-0">
-              {/* LÍNEA TRANSVERSAL ELIMINADA */}
               {processSteps.map((step, index) => (
                 <AnimatedSection key={index} className="flex-1 z-10 delay-[200ms]">
                   <div className="flex items-start md:flex-col md:items-center md:text-center">
