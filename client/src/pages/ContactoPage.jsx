@@ -1,5 +1,36 @@
 import { useState } from 'react';
 
+// Componente reutilizable para un campo de formulario con ícono
+const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, required, iconPath }) => {
+  const isTextarea = type === 'textarea';
+  const commonProps = {
+    id,
+    name,
+    value,
+    onChange,
+    required,
+    className: "w-full bg-light-bg dark:bg-gray-800 border border-light-subtle dark:border-gray-700 rounded-lg py-2 px-4 text-light-text dark:text-white focus:outline-none focus:border-light-accent dark:focus:border-brand-gold pr-10"
+  };
+
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm text-gray-700 dark:text-gray-300 mb-1">{label}</label>
+      <div className="relative mt-1">
+        {isTextarea ? (
+          <textarea {...commonProps} rows="4"></textarea>
+        ) : (
+          <input type={type} {...commonProps} />
+        )}
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <svg xmlns="http://www.w.3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Componente reutilizable para la información de contacto con ícono
 const ContactInfoItem = ({ iconPath, title, value, href }) => (
     <div className="flex items-center space-x-4">
@@ -19,6 +50,11 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
   const [formData, setFormData] = useState({ nombre: '', email: '', asunto: '', mensaje: '' });
   const [submitted, setSubmitted] = useState(false);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Formulario enviado:', formData);
@@ -30,7 +66,6 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
     }, 3000);
   };
 
-  // Clases para ocultar la barra de scroll
   const scrollbarHideClasses = "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]";
 
   return (
@@ -44,26 +79,47 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
       </div>
 
       <div className="flex flex-col gap-8">
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label htmlFor="nombre" className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Nombre Completo</label>
-              <input type="text" id="nombre" name="nombre" required className="w-full bg-light-bg dark:bg-gray-800 border border-light-subtle dark:border-gray-700 rounded-lg py-2 px-3 text-light-text dark:text-white focus:outline-none focus:border-light-accent dark:focus:border-brand-gold" />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
-              <input type="email" id="email" name="email" required className="w-full bg-light-bg dark:bg-gray-800 border border-light-subtle dark:border-gray-700 rounded-lg py-2 px-3 text-light-text dark:text-white focus:outline-none focus:border-light-accent dark:focus:border-brand-gold" />
-            </div>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="asunto" className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Asunto</label>
-            <input type="text" id="asunto" name="asunto" required className="w-full bg-light-bg dark:bg-gray-800 border border-light-subtle dark:border-gray-700 rounded-lg py-2 px-3 text-light-text dark:text-white focus:outline-none focus:border-light-accent dark:focus:border-brand-gold" />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="mensaje" className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" rows="4" required className="w-full bg-light-bg dark:bg-gray-800 border border-light-subtle dark:border-gray-700 rounded-lg py-2 px-3 text-light-text dark:text-white focus:outline-none focus:border-light-accent dark:focus:border-brand-gold"></textarea>
-          </div>
-          <button type="submit" className="w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 rounded-lg hover:opacity-90 transition-colors">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <FormFieldWithIcon
+            id="nombre"
+            name="nombre"
+            label="Nombre Completo"
+            value={formData.nombre}
+            onChange={handleChange}
+            required
+            iconPath="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+          <FormFieldWithIcon
+            id="email"
+            name="email"
+            type="email"
+            label="Correo Electrónico"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            iconPath="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
+          <FormFieldWithIcon
+            id="asunto"
+            name="asunto"
+            label="Asunto"
+            value={formData.asunto}
+            onChange={handleChange}
+            required
+            iconPath="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+          />
+          <FormFieldWithIcon
+            id="mensaje"
+            name="mensaje"
+            type="textarea"
+            label="Mensaje"
+            value={formData.mensaje}
+            onChange={handleChange}
+            required
+            iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
+          />
+          
+          <button type="submit" className="w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 rounded-lg hover:opacity-90 transition-colors !mt-6">
             Enviar Mensaje
           </button>
           {submitted && (
@@ -73,7 +129,6 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
 
         <div className="border-t border-light-subtle dark:border-gray-700"></div>
 
-        {/* Layout corregido para la información de contacto */}
         <div className="flex flex-col space-y-6">
           <ContactInfoItem iconPath="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" title="Ventas" value="ventas1@generainmobiliaria.com.pe" href="mailto:ventas1@generainmobiliaria.com.pe" />
           <ContactInfoItem iconPath="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" title="Contacto General" value="contacto@generainmobiliaria.com.pe" href="mailto:contacto@generainmobiliaria.com.pe" />

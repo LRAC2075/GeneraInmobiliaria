@@ -15,7 +15,7 @@ const Header = () => {
     <header className="bg-light-card dark:bg-brand-dark border-b border-light-subtle dark:border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <NavLink to="/">
-          <h1 className="text-2xl font-bold text-light-text dark:text-white tracking-wider">MiProyecto</h1>
+          <h1 className="text-2xl font-bold text-light-text dark:text-white tracking-wider">GENERA</h1>
         </NavLink>
         <div className="flex items-center space-x-6">
           <ul className="hidden md:flex items-center space-x-8 text-lg">
