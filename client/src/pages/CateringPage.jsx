@@ -1,18 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Heart, Briefcase, GlassWater, UtensilsCrossed, Leaf, Star } from 'lucide-react';
-import { useModal } from '../context/ModalContext.jsx'; // CORRECCIÓN: Añadiendo la extensión .jsx al import
+import { useModal } from '../context/ModalContext.jsx';
+import SectionHeader from '../components/SectionHeader.jsx';
+import FlippableImage from '../components/FlippableImage.jsx';
 
-// --- Componentes Reutilizables (Asumimos que existen en tu proyecto) ---
-
-// Asumimos que tienes un componente SectionHeader en tu carpeta de componentes
-const SectionHeader = ({ title, subtitle }) => (
-  <div className="text-center mb-12">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">{title}</h2>
-    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{subtitle}</p>
-  </div>
-);
-
-// Hook para animaciones de scroll (Asumimos que tienes uno similar)
+// El hook de animación y el componente AnimatedSection no necesitan cambios.
 const useAnimateOnScroll = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -38,7 +30,6 @@ const useAnimateOnScroll = () => {
   return ref;
 };
 
-// Componente wrapper para aplicar la animación
 const AnimatedSection = ({ children, className = '' }) => {
   const ref = useAnimateOnScroll();
   return (
@@ -49,12 +40,8 @@ const AnimatedSection = ({ children, className = '' }) => {
 };
 
 
-// --- Componente Principal: CateringPage ---
-
 export default function CateringPage() {
-  // 1. Obtén la función openModal dentro de tu componente
   const { openModal } = useModal();
-
   const [activeTab, setActiveTab] = useState('gala');
 
   const services = [
@@ -75,13 +62,44 @@ export default function CateringPage() {
     },
   ];
 
-  const galleryImages = [
-    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80',
-    'https://images.unsplash.com/photo-1522336572468-97b06e8ef143?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=876&q=80',
-    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-    'https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-    'https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=872&q=80',
-    'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+  // --- CORRECCIÓN FINAL: URL de la imagen 3 actualizada ---
+  const galleryItems = [
+    { 
+      src: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1364&auto=format&fit=crop',
+      title: 'Coctelería Creativa',
+      description: 'Bebidas refrescantes y de autor para maridar perfectamente con nuestros platillos.',
+      points: ['Mixología de autor', 'Ingredientes premium', 'Presentación innovadora']
+    },
+    { 
+      src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1381&auto=format&fit=crop',
+      title: 'Platos Frescos',
+      description: 'Ingredientes de estación que no solo deleitan el paladar, sino también la vista.',
+      points: ['De la huerta a la mesa', 'Sabor auténtico', 'Visualmente impactante']
+    },
+    { 
+      src: 'https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?q=80&w=1287&auto=format&fit=crop',
+      title: 'Tablas de Autor',
+      description: 'Una selección de quesos y embutidos de primera calidad para una experiencia completa.',
+      points: ['Productos importados', 'Maridaje perfecto', 'Ideal para compartir']
+    },
+    { 
+      src: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1380&auto=format&fit=crop',
+      title: 'Postres Clásicos',
+      description: 'Creaciones que combinan texturas y sabores para un final dulce e inolvidable.',
+      points: ['Recetas tradicionales', 'Toque moderno', 'Ingredientes de calidad']
+    },
+    { 
+      src: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=1378&auto=format&fit=crop',
+      title: 'Pastelería Fina',
+      description: 'Donde cada pieza es una pequeña obra de arte comestible, elaborada con maestría.',
+      points: ['Diseño artesanal', 'Detalles minuciosos', 'Sabor excepcional']
+    },
+    { 
+      src: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1470&auto=format&fit=crop',
+      title: 'Bocaditos Gourmet',
+      description: 'Una elegante presentación de bocaditos, perfectos para iniciar cualquier celebración.',
+      points: ['Ingredientes frescos', 'Presentación impecable', 'Variedad de sabores']
+    },
   ];
 
   const menus = {
@@ -116,17 +134,17 @@ export default function CateringPage() {
 
   return (
     <div className="bg-white dark:bg-gray-900">
-      {/* --- Hero Banner --- */}
+      {/* Hero Banner */}
       <section className="relative h-[60vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center text-white" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')" }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <AnimatedSection className="relative z-10 text-center p-4">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">Creamos Experiencias Inolvidables</h1>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">Creamos Experiencias Inolvidables</h1>
           <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">Descubre cómo nuestra pasión por la gastronomía puede transformar tu evento.</p>
         </AnimatedSection>
       </section>
 
       <main>
-        {/* --- Sección de Servicios --- */}
+        {/* Sección de Servicios */}
         <section className="py-20 px-4">
           <div className="container mx-auto">
             <AnimatedSection>
@@ -151,20 +169,26 @@ export default function CateringPage() {
           </div>
         </section>
 
-        {/* --- Galería de Eventos --- */}
+        {/* Sección de Galería */}
         <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader
                 title="Nuestra Galería"
-                subtitle="Momentos capturados que reflejan la magia y el detalle de nuestros eventos."
+                subtitle="Momentos capturados que reflejan la magia y el detalle de nuestros eventos. Haz clic en una imagen para saber más."
               />
             </AnimatedSection>
             <AnimatedSection className="delay-[200ms]">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {galleryImages.map((src, index) => (
-                  <div key={index} className={`rounded-lg overflow-hidden shadow-lg ${index === 0 || index === 5 ? 'md:col-span-1' : ''}`}>
-                    <img src={src} alt={`Evento de catering ${index + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300" loading="lazy" />
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {galleryItems.map((item, index) => (
+                  <div key={index} className="aspect-[3/4]">
+                    <FlippableImage
+                      src={item.src}
+                      title={item.title}
+                      description={item.description} // Pasamos la descripción
+                      points={item.points} // Pasamos los nuevos puntos
+                      accentColor="orange"
+                    />
                   </div>
                 ))}
               </div>
@@ -172,7 +196,7 @@ export default function CateringPage() {
           </div>
         </section>
 
-        {/* --- Menús de Ejemplo --- */}
+        {/* Sección de Menús */}
         <section className="py-20 px-4">
           <div className="container mx-auto">
             <AnimatedSection>
@@ -215,7 +239,7 @@ export default function CateringPage() {
           </div>
         </section>
 
-        {/* --- Llamada a la Acción (CTA) --- */}
+        {/* Sección CTA */}
         <section className="py-20 px-4 bg-orange-500 dark:bg-orange-800 text-white">
           <div className="container mx-auto text-center">
             <AnimatedSection>
@@ -223,7 +247,6 @@ export default function CateringPage() {
               <p className="text-lg text-orange-100 dark:text-orange-200 max-w-2xl mx-auto mb-8">
                 Contáctanos hoy mismo. Nuestro equipo de expertos está listo para ayudarte a diseñar una experiencia inolvidable.
               </p>
-              {/* 2. Asigna la función a un evento onClick */}
               <button
                 onClick={openModal}
                 className="bg-white text-orange-600 font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition-transform duration-300 shadow-lg"
