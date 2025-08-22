@@ -1,15 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { Cpu, Lightbulb, MonitorPlay, Puzzle } from 'lucide-react';
-import { useModal } from '/src/context/ModalContext.jsx'; // CORRECCIÓN: Usando una ruta absoluta desde la raíz del proyecto
+import { useModal } from '../context/ModalContext.jsx';
+import SectionHeader from '../components/SectionHeader.jsx';
 
 // --- Componentes y Hooks Reutilizables (Asumimos que existen en tu proyecto) ---
-
-const SectionHeader = ({ title, subtitle }) => (
-  <div className="text-center mb-12">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">{title}</h2>
-    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">{subtitle}</p>
-  </div>
-);
 
 const useAnimateOnScroll = () => {
   const ref = useRef(null);
@@ -144,7 +138,7 @@ export default function TecnologiaPage() {
               />
             </AnimatedSection>
             <div className="relative flex flex-col md:flex-row justify-between max-w-5xl mx-auto mt-12 space-y-8 md:space-y-0">
-               <div className="absolute top-8 left-8 h-full md:h-auto md:w-full md:top-1/2 border-l-2 md:border-l-0 md:border-t-2 border-dashed border-sky-300 dark:border-sky-700 -z-0"></div>
+              {/* LÍNEA TRANSVERSAL ELIMINADA */}
               {processSteps.map((step, index) => (
                 <AnimatedSection key={index} className="flex-1 z-10 delay-[200ms]">
                   <div className="flex items-start md:flex-col md:items-center md:text-center">
