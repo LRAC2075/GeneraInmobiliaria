@@ -51,29 +51,49 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
   const [status, setStatus] = useState({ submitted: false, message: '', isError: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- ¡IMPORTANTE! Pega aquí la URL que copiaste de Formspree ---
+  const FORMSPREE_URL = 'https://formspree.io/f/mldlqypg'; // <-- REEMPLAZA ESTO
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  // --- LÓGICA DE ENVÍO SIMULADA ---
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log('Formulario enviado (simulación):', formData);
-    
-    // Simular una pequeña espera
-    setTimeout(() => {
+    setStatus({ submitted: false, message: '', isError: false });
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        // Formspree devuelve errores en el cuerpo de la respuesta
+        const data = await response.json();
+        const errorMessage = data.errors?.map(err => err.message).join(', ') || 'Algo salió mal.';
+        throw new Error(errorMessage);
+      }
+
       setStatus({ submitted: true, message: '¡Mensaje enviado con éxito!', isError: false });
       setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
-      setIsSubmitting(false);
 
-      // Cerrar el modal después de 3 segundos
       setTimeout(() => {
         if (isModal) closeModal();
         setStatus({ submitted: false, message: '', isError: false });
       }, 3000);
-    }, 1000);
+
+    } catch (error) {
+      setStatus({ submitted: true, message: error.message, isError: true });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const scrollbarHideClasses = "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]";
