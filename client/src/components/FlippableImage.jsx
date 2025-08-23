@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageIcon, AlertTriangle, Check } from 'lucide-react';
+import { Check, ImageIcon, AlertTriangle } from 'lucide-react';
 
 const FlippableImage = ({ src, title, description, points = [], accentColor = 'orange' }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -29,7 +29,12 @@ const FlippableImage = ({ src, title, description, points = [], accentColor = 'o
       separator: 'bg-orange-300',
       check: 'text-orange-200'
     },
-    blue: {
+    teal: {
+      bgGradient: 'from-teal-600 to-teal-700 dark:from-teal-700 dark:to-teal-800',
+      separator: 'bg-teal-300',
+      check: 'text-teal-200'
+    },
+    sky: {
       bgGradient: 'from-sky-600 to-sky-700 dark:from-sky-700 dark:to-sky-800',
       separator: 'bg-sky-300',
       check: 'text-sky-200'
@@ -83,26 +88,25 @@ const FlippableImage = ({ src, title, description, points = [], accentColor = 'o
           {renderFrontContent()}
         </div>
 
-        {/* --- MEJORA FINAL: Diseño del reverso centrado, con más padding y texto más grande --- */}
+        {/* Lado Trasero (Reverso) con texto responsivo mejorado */}
         <div
-          className={`absolute w-full h-full bg-gradient-to-br ${selectedAccent.bgGradient} rounded-lg shadow-lg p-6 flex flex-col justify-center text-center`}
+          className={`absolute w-full h-full bg-gradient-to-br ${selectedAccent.bgGradient} rounded-lg shadow-lg p-4 sm:p-6 flex flex-col justify-center text-center`}
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
         >
           <div className="text-white">
-            <h4 className="text-2xl font-bold font-serif mb-2">{title}</h4>
-            <p className="text-sm font-light leading-relaxed opacity-90 mb-4">{description}</p>
+            <h4 className="text-xl md:text-2xl font-bold font-serif mb-2">{title}</h4>
+            <p className="text-base md:text-lg font-light leading-snug opacity-90 mb-4">{description}</p>
             
             {points && points.length > 0 && (
               <>
-                <div className={`w-16 h-0.5 ${selectedAccent.separator} bg-opacity-75 mb-4 mx-auto`}></div>
-                {/* La lista ahora se muestra en una sola columna para un mejor centrado */}
+                <div className={`w-1/3 h-px ${selectedAccent.separator} bg-opacity-75 mb-4 mx-auto`}></div>
                 <ul className="space-y-2 inline-block text-left mx-auto">
                   {points.map((point, index) => (
-                    <li key={index} className="flex items-start text-sm">
-                      <Check className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0 ${selectedAccent.check}`} />
+                    <li key={index} className="flex items-start text-sm md:text-base">
+                      <Check className={`w-4 h-4 mr-2 mt-1 flex-shrink-0 ${selectedAccent.check}`} />
                       <span>{point}</span>
                     </li>
                   ))}

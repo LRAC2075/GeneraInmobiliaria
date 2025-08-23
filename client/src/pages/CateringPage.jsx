@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Heart, Briefcase, GlassWater, UtensilsCrossed, Leaf, Star } from 'lucide-react';
-import { useModal } from '../context/ModalContext.jsx';
-import SectionHeader from '../components/SectionHeader.jsx';
-import FlippableImage from '../components/FlippableImage.jsx';
+import { useModal } from '/src/context/ModalContext.jsx';
+import SectionHeader from '/src/components/SectionHeader.jsx';
+import FlippableImage from '/src/components/FlippableImage.jsx';
 
 // El hook de animación y el componente AnimatedSection no necesitan cambios.
 const useAnimateOnScroll = () => {
@@ -62,7 +62,6 @@ export default function CateringPage() {
     },
   ];
 
-  // --- CORRECCIÓN FINAL: URL de la imagen 3 actualizada ---
   const galleryItems = [
     { 
       src: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1364&auto=format&fit=crop',
@@ -179,14 +178,15 @@ export default function CateringPage() {
               />
             </AnimatedSection>
             <AnimatedSection className="delay-[200ms]">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              {/* --- CAMBIO RESPONSIVO APLICADO AQUÍ --- */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {galleryItems.map((item, index) => (
                   <div key={index} className="aspect-[3/4]">
                     <FlippableImage
                       src={item.src}
                       title={item.title}
-                      description={item.description} // Pasamos la descripción
-                      points={item.points} // Pasamos los nuevos puntos
+                      description={item.description}
+                      points={item.points}
                       accentColor="orange"
                     />
                   </div>
