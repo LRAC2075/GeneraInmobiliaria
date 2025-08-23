@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-// Componente reutilizable para un campo de formulario con ícono
+// ... (Los componentes FormFieldWithIcon y ContactInfoItem no cambian)
 const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, required, iconPath }) => {
   const isTextarea = type === 'textarea';
   const commonProps = {
@@ -22,7 +22,7 @@ const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, re
           <input type={type} {...commonProps} />
         )}
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-          <svg xmlns="http://www.w.3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
           </svg>
         </div>
@@ -31,7 +31,6 @@ const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, re
   );
 };
 
-// Componente reutilizable para la información de contacto con ícono
 const ContactInfoItem = ({ iconPath, title, value, href }) => (
     <div className="flex items-center space-x-4">
         <div className="flex-shrink-0">
@@ -46,24 +45,35 @@ const ContactInfoItem = ({ iconPath, title, value, href }) => (
     </div>
 );
 
+
 const ContactoPage = ({ isModal = false, closeModal }) => {
   const [formData, setFormData] = useState({ nombre: '', email: '', asunto: '', mensaje: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState({ submitted: false, message: '', isError: false });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  // --- LÓGICA DE ENVÍO SIMULADA ---
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Formulario enviado:', formData);
-    setSubmitted(true);
+    setIsSubmitting(true);
+    console.log('Formulario enviado (simulación):', formData);
+    
+    // Simular una pequeña espera
     setTimeout(() => {
-        setSubmitted(false);
-        setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
-        if(isModal) closeModal();
-    }, 3000);
+      setStatus({ submitted: true, message: '¡Mensaje enviado con éxito!', isError: false });
+      setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
+      setIsSubmitting(false);
+
+      // Cerrar el modal después de 3 segundos
+      setTimeout(() => {
+        if (isModal) closeModal();
+        setStatus({ submitted: false, message: '', isError: false });
+      }, 3000);
+    }, 1000);
   };
 
   const scrollbarHideClasses = "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]";
@@ -80,50 +90,19 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
 
       <div className="flex flex-col gap-8">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <FormFieldWithIcon
-            id="nombre"
-            name="nombre"
-            label="Nombre Completo"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-            iconPath="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-          <FormFieldWithIcon
-            id="email"
-            name="email"
-            type="email"
-            label="Correo Electrónico"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            iconPath="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-          <FormFieldWithIcon
-            id="asunto"
-            name="asunto"
-            label="Asunto"
-            value={formData.asunto}
-            onChange={handleChange}
-            required
-            iconPath="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-          />
-          <FormFieldWithIcon
-            id="mensaje"
-            name="mensaje"
-            type="textarea"
-            label="Mensaje"
-            value={formData.mensaje}
-            onChange={handleChange}
-            required
-            iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
-          />
+          <FormFieldWithIcon id="nombre" name="nombre" label="Nombre Completo" value={formData.nombre} onChange={handleChange} required iconPath="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          <FormFieldWithIcon id="email" name="email" type="email" label="Correo Electrónico" value={formData.email} onChange={handleChange} required iconPath="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <FormFieldWithIcon id="asunto" name="asunto" label="Asunto" value={formData.asunto} onChange={handleChange} required iconPath="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          <FormFieldWithIcon id="mensaje" name="mensaje" type="textarea" label="Mensaje" value={formData.mensaje} onChange={handleChange} required iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" />
           
-          <button type="submit" className="w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 rounded-lg hover:opacity-90 transition-colors !mt-6">
-            Enviar Mensaje
+          <button type="submit" disabled={isSubmitting} className="w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 rounded-lg hover:opacity-90 transition-all !mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+            {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
           </button>
-          {submitted && (
-            <p className="text-green-500 mt-4 text-center">¡Formulario enviado con éxito!</p>
+          
+          {status.submitted && (
+            <p className={`mt-4 text-center ${status.isError ? 'text-red-500' : 'text-green-500'}`}>
+              {status.message}
+            </p>
           )}
         </form>
 

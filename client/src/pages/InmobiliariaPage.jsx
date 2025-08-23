@@ -4,7 +4,7 @@ import { getPropiedades } from '/src/api/inmobiliariaAPI.js';
 import SectionHeader from '/src/components/SectionHeader.jsx';
 import { useModal } from '/src/context/ModalContext.jsx';
 import { useTheme } from '/src/context/ThemeContext.jsx';
-import { Bed, Bath, Ruler } from 'lucide-react'; // Importamos los nuevos íconos
+import { Bed, Bath, Ruler } from 'lucide-react';
 
 // --- Hooks y Componentes Reutilizables ---
 
@@ -141,8 +141,8 @@ export default function InmobiliariaPage() {
       </section>
 
       <main>
-        {/* --- Sección de Nuestro Compromiso --- */}
-        <section className="py-20 px-4">
+        {/* --- Sección de Nuestro Compromiso (Diseño de línea mejorado) --- */}
+        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader
@@ -151,12 +151,14 @@ export default function InmobiliariaPage() {
               />
             </AnimatedSection>
             <div className="relative flex flex-col md:flex-row justify-between items-start max-w-5xl mx-auto mt-12 space-y-12 md:space-y-0">
+              {/* Conectores curvos para desktop */}
               <div className="absolute top-8 left-0 w-full h-full hidden md:block">
                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0">
                   <path d="M 16.66% 40 C 33.33% 40, 33.33% 80, 50% 80" strokeDasharray="5, 5" className="stroke-current text-teal-300 dark:text-teal-700" strokeWidth="2" fill="none"/>
                   <path d="M 50% 80 C 66.66% 80, 66.66% 40, 83.33% 40" strokeDasharray="5, 5" className="stroke-current text-teal-300 dark:text-teal-700" strokeWidth="2" fill="none"/>
                 </svg>
               </div>
+
               {[
                 { number: '01', title: 'Conceptualización', description: 'Analizamos tus sueños y necesidades para definir el proyecto perfecto.' },
                 { number: '02', title: 'Construcción', description: 'Ejecutamos con los más altos estándares de calidad y materiales premium.' },
@@ -164,7 +166,7 @@ export default function InmobiliariaPage() {
               ].map((step, index) => (
                 <AnimatedSection key={index} className="flex-1 z-10" style={{ transitionDelay: `${index * 200}ms` }}>
                   <div className="flex items-start md:flex-col md:items-center md:text-center">
-                    <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-white dark:border-gray-900 mb-4">
+                    <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-gray-50 dark:border-gray-800 mb-4">
                       {step.number}
                     </div>
                     <div className="ml-6 md:ml-0">
@@ -178,8 +180,8 @@ export default function InmobiliariaPage() {
           </div>
         </section>
 
-        {/* --- Sección de Testimonios (Con fondo) --- */}
-        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+        {/* --- Sección de Testimonios --- */}
+        <section className="py-20 px-4">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader 
@@ -194,7 +196,7 @@ export default function InmobiliariaPage() {
         </section>
 
         {/* --- Sección de Propiedades --- */}
-        <section className="py-20 px-4">
+        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader 
@@ -203,6 +205,7 @@ export default function InmobiliariaPage() {
               />
             </AnimatedSection>
 
+            {/* --- Filtros --- */}
             <AnimatedSection className="flex justify-center flex-wrap gap-3 mb-12" style={{ transitionDelay: '200ms' }}>
               {filterOptions.map(option => (
                 <button
@@ -211,7 +214,7 @@ export default function InmobiliariaPage() {
                   className={`px-5 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ${
                     activeFilter === option
                       ? 'bg-teal-500 text-white shadow-md'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
                 >
                   {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -219,12 +222,13 @@ export default function InmobiliariaPage() {
               ))}
             </AnimatedSection>
 
+            {/* --- Grid de Propiedades --- */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPropiedades.length > 0 ? (
                 filteredPropiedades.map((prop, index) => (
                   <AnimatedSection key={prop.id} style={{ transitionDelay: `${index * 100}ms` }}>
                     <Link to={`/inmobiliaria/${prop.id}`} className="block group h-full">
-                      <div className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:dark:shadow-teal-500/20 group-hover:-translate-y-2">
+                      <div className="relative bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:dark:shadow-teal-500/20 group-hover:-translate-y-2">
                         <div className="relative">
                           <img src={prop.imagenUrl} alt={prop.nombre} className="w-full h-56 object-cover" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -235,7 +239,6 @@ export default function InmobiliariaPage() {
                         </div>
                         <div className="p-6">
                           <p className="text-teal-600 dark:text-teal-400 font-bold text-2xl mb-4">${prop.precio.toLocaleString()}</p>
-                          {/* --- ÍCONOS AÑADIDOS --- */}
                           <div className="flex justify-between text-gray-600 dark:text-gray-400">
                             <span className="flex items-center"><Bed className="w-5 h-5 mr-2 text-teal-500" /> {prop.habitaciones} hab.</span>
                             <span className="flex items-center"><Bath className="w-5 h-5 mr-2 text-teal-500" /> {prop.banos} baños</span>

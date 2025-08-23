@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getPropiedadById } from '../api/inmobiliariaAPI.js';
-import ImageWithFallback from '../components/ImageWithFallback.jsx';
-import { useModal } from '../context/ModalContext.jsx';
+import { getPropiedadById } from '/src/api/inmobiliariaAPI.js';
+import ImageWithFallback from '/src/components/ImageWithFallback.jsx';
+import { useModal } from '/src/context/ModalContext.jsx';
 import { Bed, Bath, Ruler, ArrowLeft } from 'lucide-react';
 
 // --- Hooks y Componentes Reutilizables ---

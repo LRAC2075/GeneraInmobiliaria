@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 
 const inmobiliariaRoutes = require('./routes/inmobiliariaRoutes');
+
+const contactoRoutes = require('./routes/contactoRoutes'); // Importa las nuevas rutas
 
 // Inicializar la app de Express
 const app = express();
@@ -19,6 +21,8 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/inmobiliaria', inmobiliariaRoutes);
+
+app.use('/api', contactoRoutes); // Usa las rutas de contacto
 
 // Puerto
 const PORT = process.env.PORT || 5000;

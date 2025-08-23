@@ -17,8 +17,8 @@ const Header = () => {
   return (
     <header className="bg-light-card dark:bg-brand-dark border-b border-light-subtle dark:border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* --- SECCIÓN DEL LOGO CON TEXTO INTEGRADO --- */}
-        <Link to="/" className="flex items-center gap-4">
+        {/* --- SECCIÓN DEL LOGO CORREGIDA PARA MÓVILES --- */}
+        <Link to="/" className="flex items-center gap-2 sm:gap-4">
           {/* Logo para modo claro */}
           <img 
             src={logoClaro} 
@@ -33,8 +33,8 @@ const Header = () => {
             className="h-12 w-auto hidden dark:block"
           />
           
-          {/* Texto reintroducido para balance visual */}
-          <div className="flex flex-col">
+          {/* Texto que se oculta en pantallas pequeñas */}
+          <div className="hidden sm:flex flex-col">
             <span className="text-2xl font-bold text-gray-800 dark:text-white tracking-wider leading-tight">
               GENERA
             </span>
@@ -44,7 +44,7 @@ const Header = () => {
           </div>
         </Link>
         
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-2 sm:space-x-6">
           <ul className="hidden md:flex items-center space-x-8 text-lg">
             <li><NavLink to="/inmobiliaria" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Inmobiliaria</NavLink></li>
             <li><NavLink to="/catering" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Catering</NavLink></li>
@@ -53,7 +53,7 @@ const Header = () => {
           
           <button 
             onClick={openModal} 
-            className="bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-5 py-2 rounded-lg text-md hover:opacity-90 transition-opacity"
+            className="bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-3 sm:px-5 py-2 rounded-lg text-sm sm:text-md hover:opacity-90 transition-opacity whitespace-nowrap"
           >
             Contáctanos
           </button>
