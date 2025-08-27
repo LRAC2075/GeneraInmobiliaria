@@ -1,13 +1,16 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useModal } from '../context/ModalContext';
-import { Link } from 'react-router-dom';
 import logoClaro from '../assets/GeneraInmobiliaria_claro.svg';
 import logoOscuro from '../assets/GeneraInmobiliaria_oscuro.svg';
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const { openModal } = useModal();
+
+  const foundingYear = 2005;
+  const currentYear = new Date().getFullYear();
+  const experienceYears = currentYear - foundingYear;
 
   const activeLinkStyle = {
     color: theme === 'dark' ? '#c3a478' : '#b59469',
@@ -17,32 +20,42 @@ const Header = () => {
   return (
     <header className="bg-light-card dark:bg-brand-dark border-b border-light-subtle dark:border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* --- SECCIÓN DEL LOGO CORREGIDA PARA MÓVILES --- */}
-        <Link to="/" className="flex items-center gap-2 sm:gap-4">
-          {/* Logo para modo claro */}
-          <img 
-            src={logoClaro} 
-            alt="Logo de GENERA" 
-            className="h-12 w-auto dark:hidden"
-          />
-          
-          {/* Logo para modo oscuro */}
-          <img 
-            src={logoOscuro} 
-            alt="Logo de GENERA" 
-            className="h-12 w-auto hidden dark:block"
-          />
-          
-          {/* Texto que se oculta en pantallas pequeñas */}
-          <div className="hidden sm:flex flex-col">
-            <span className="text-2xl font-bold text-gray-800 dark:text-white tracking-wider leading-tight">
-              GENERA
-            </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400 tracking-wide">
-              Constructora e Inmobiliaria
-            </span>
+        
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center gap-2 sm:gap-4">
+            <img 
+              src={logoClaro} 
+              alt="Logo de GENERA" 
+              className="h-12 w-auto dark:hidden"
+            />
+            <img 
+              src={logoOscuro} 
+              alt="Logo de GENERA" 
+              className="h-12 w-auto hidden dark:block"
+            />
+            <div className="hidden sm:flex flex-col">
+              <span className="text-2xl font-bold text-gray-800 dark:text-white tracking-wider leading-tight">
+                GENERA
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 tracking-wide">
+                Constructora e Inmobiliaria
+              </span>
+            </div>
+          </Link>
+
+          {/* --- CAMBIO 1: BREAKPOINT AJUSTADO DE 'md' A 'lg' PARA EVITAR SUPERPOSICIÓN --- */}
+          <div className="hidden lg:flex items-center ml-4 pl-4 border-l border-gray-300 dark:border-gray-600">
+            <div className="flex flex-col text-left">
+                {/* --- CAMBIO 2: APLICADOS COLORES DE ACENTO PARA MAYOR DINAMISMO --- */}
+                <span className="text-2xl font-bold text-light-accent dark:text-brand-gold leading-tight transition-colors duration-300">
+                    {experienceYears}
+                </span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 tracking-wide">
+                    Años de Experiencia
+                </span>
+            </div>
           </div>
-        </Link>
+        </div>
         
         <div className="flex items-center space-x-2 sm:space-x-6">
           <ul className="hidden md:flex items-center space-x-8 text-lg">
