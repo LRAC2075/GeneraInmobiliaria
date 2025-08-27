@@ -3,125 +3,161 @@ import { useState, useEffect, useRef } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import { useModal } from '../context/ModalContext';
 
-// Hook genérico para observar la intersección
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade } from 'swiper/modules'; // Se elimina 'Navigation'
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+// import 'swiper/css/navigation'; // Se elimina la importación del CSS de navegación
+
+// ... (El resto de los sub-componentes no cambian)
 const useIntersectionObserver = (options) => {
-  const [entry, setEntry] = useState(null);
-  const [node, setNode] = useState(null);
-  const observer = useRef(null);
-
-  useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new window.IntersectionObserver(([entry]) => setEntry(entry), options);
-    const { current: currentObserver } = observer;
-    if (node) currentObserver.observe(node);
-    return () => currentObserver.disconnect();
-  }, [node, options]);
-
-  return [setNode, entry?.isIntersecting];
+    const [entry, setEntry] = useState(null);
+    const [node, setNode] = useState(null);
+    const observer = useRef(null);
+  
+    useEffect(() => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new window.IntersectionObserver(([entry]) => setEntry(entry), options);
+      const { current: currentObserver } = observer;
+      if (node) currentObserver.observe(node);
+      return () => currentObserver.disconnect();
+    }, [node, options]);
+  
+    return [setNode, entry?.isIntersecting];
 };
-
-// Componente animado reutilizable que envuelve cada sección
+  
 const AnimatedSection = ({ children, className = '' }) => {
-  const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
-  return (
-    <section 
-      ref={setNode}
-      className={`${className} transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-    >
-      {children}
-    </section>
-  );
+    const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+    return (
+      <section 
+        ref={setNode}
+        className={`${className} transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      >
+        {children}
+      </section>
+    );
 };
-
-// Sub-componente para la lista de características de cada servicio
+  
 const ServiceFeatureList = ({ features }) => (
-  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-    {features.map((feature, index) => (
-      <div key={index} className="flex items-center space-x-3">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
-        <span className="text-gray-600 dark:text-gray-400">{feature}</span>
-      </div>
-    ))}
-  </div>
-);
-
-// Componente para las secciones de servicio
-const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageLeft = false }) => {
-  const imageOrder = imageLeft ? 'md:order-1' : 'md:order-2';
-  const textOrder = imageLeft ? 'md:order-2' : 'md:order-1';
-
-  return (
-    <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className={imageOrder}>
-            <img src={imageUrl} alt={title} className="rounded-lg shadow-2xl w-full h-auto object-cover" />
-          </div>
-          <div className={textOrder}>
-            <h3 className="text-4xl font-bold text-light-text dark:text-white mb-4">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">{description}</p>
-            {features && <ServiceFeatureList features={features} />}
-            <Link
-              to={linkTo}
-              className="inline-block mt-8 bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
-            >
-              Más Información
-            </Link>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
-};
-
-// Sub-componente mejorado para las tarjetas de proceso en el CTA final
-const ProcessHighlightCard = ({ iconPath, title, description }) => (
-    <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
-        <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+        {features.map((feature, index) => (
+          <div key={index} className="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-        </div>
-        <h4 className="font-bold text-lg text-light-text dark:text-white mb-2">{title}</h4>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
-    </div>
+            <span className="text-gray-600 dark:text-gray-400">{feature}</span>
+          </div>
+        ))}
+      </div>
+);
+    
+const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageLeft = false }) => {
+      const imageOrder = imageLeft ? 'md:order-1' : 'md:order-2';
+      const textOrder = imageLeft ? 'md:order-2' : 'md:order-1';
+    
+      return (
+        <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className={imageOrder}>
+                <img src={imageUrl} alt={title} className="rounded-lg shadow-2xl w-full h-auto object-cover" />
+              </div>
+              <div className={textOrder}>
+                <h3 className="text-4xl font-bold text-light-text dark:text-white mb-4">{title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">{description}</p>
+                {features && <ServiceFeatureList features={features} />}
+                <Link
+                  to={linkTo}
+                  className="inline-block mt-8 bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  Más Información
+                </Link>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+      );
+};
+  
+const ProcessHighlightCard = ({ iconPath, title, description }) => (
+      <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+          <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+              </svg>
+          </div>
+          <h4 className="font-bold text-lg text-light-text dark:text-white mb-2">{title}</h4>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
+      </div>
 );
 
-// Componente principal de la página de inicio
 const HomePage = () => {
   const { openModal } = useModal();
-  const heroBackgroundImage = 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop';
+  
+  const heroSlides = [
+    {
+      img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2070&auto=format&fit=crop',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=2070&auto=format&fit=crop',
+    }
+  ];
 
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
-      <section
-        className="relative h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-center"
-        style={{ backgroundImage: `url(${heroBackgroundImage})` }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60" />
-        <div className="relative z-10 px-4">
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-4">
-            Transformando Ideas en Realidad
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Soluciones de vanguardia en desarrollo inmobiliario, producción de eventos y tecnología de diseño.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/inmobiliaria" className="bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold text-lg px-6 py-3 rounded-full hover:opacity-90 transition-all duration-300 w-full sm:w-auto">
-              Inmobiliaria
-            </Link>
-            <Link to="/catering" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
-              Catering y Eventos
-            </Link>
-            <Link to="/tecnologia" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
-              Tecnología
-            </Link>
-          </div>
+        {/* --- ELIMINADO: BLOQUE DE ESTILOS PERSONALIZADOS PARA LAS FLECHAS --- */}
+        {/* Ya no es necesario al eliminar la navegación con flechas */}
+
+      <section className="relative h-screen w-full text-center">
+        <Swiper
+          modules={[Autoplay, EffectFade]} // Se elimina 'Navigation' del array de módulos
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          effect="fade"
+          fadeEffect={{ crossFade: true }}
+          loop={true}
+          // navigation={true} // Se elimina la propiedad de navegación
+          className="h-full w-full"
+        >
+          {heroSlides.map((slide, index) => (
+            <SwiperSlide key={index} className="relative h-full w-full">
+              <div
+                className="h-full w-full bg-cover bg-center"
+                style={{ backgroundImage: `url(${slide.img})` }}
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-60" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <div className="relative px-4">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-4">
+                    Transformando Ideas en Realidad
+                </h1>
+                <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    Soluciones de vanguardia en desarrollo inmobiliario, producción de eventos y tecnología de diseño.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Link to="/inmobiliaria" className="bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold text-lg px-6 py-3 rounded-full hover:opacity-90 transition-all duration-300 w-full sm:w-auto">
+                        Inmobiliaria
+                    </Link>
+                    <Link to="/catering" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
+                        Catering y Eventos
+                    </Link>
+                    <Link to="/tecnologia" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
+                        Tecnología
+                    </Link>
+                </div>
+            </div>
         </div>
       </section>
 
+      {/* ... El resto del componente sigue igual ... */}
       <AnimatedSection className="py-16 sm:py-24">
         <div className="container mx-auto px-4">
            <SectionHeader 
