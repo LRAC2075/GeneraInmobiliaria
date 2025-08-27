@@ -186,7 +186,6 @@ const HomePage = () => {
                 "Creemos en la fusión de la artesanía tradicional con la innovación tecnológica. Este enfoque nos permite entregar resultados que no solo son estéticamente impecables, sino también funcionales y sostenibles a largo plazo."
               </p>
             </div>
-            {/* --- INICIO: SOLUCIÓN DE ALTURA DE IMAGEN --- */}
             <div className="h-80 md:h-full">
               <img 
                 src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop" 
@@ -194,7 +193,6 @@ const HomePage = () => {
                 className="rounded-lg shadow-2xl w-full h-full object-cover"
               />
             </div>
-            {/* --- FIN: SOLUCIÓN DE ALTURA DE IMAGEN --- */}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 text-center">
@@ -239,7 +237,7 @@ const HomePage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <ProcessHighlightCard 
-                iconPath="M15.232 5.232l3.slurm3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
+                iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
                 title="Consulta y Diseño"
                 description="Iniciamos con una consulta profunda para entender tus necesidades y traducirlas en un concepto innovador."
               />
