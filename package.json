@@ -26,6 +26,7 @@
     "dotenv": "^17.2.1",
     "lucide-react": "^0.540.0",
     "nodemailer": "^7.0.5",
+    "react-countup": "^6.5.3",
     "swiper": "^11.2.10"
   }
 }
