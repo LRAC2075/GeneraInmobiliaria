@@ -178,10 +178,10 @@ export default function CateringPage() {
               />
             </AnimatedSection>
             <AnimatedSection className="delay-[200ms]">
-              {/* --- CAMBIO RESPONSIVO APLICADO AQUÍ --- */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {galleryItems.map((item, index) => (
-                  <div key={index} className="aspect-[3/4]">
+                  // --- INICIO: EFECTO HOVER APLICADO AL CONTENEDOR ---
+                  <div key={index} className="aspect-[3/4] transition-transform duration-300 ease-in-out hover:-translate-y-2">
                     <FlippableImage
                       src={item.src}
                       title={item.title}
@@ -190,6 +190,7 @@ export default function CateringPage() {
                       accentColor="orange"
                     />
                   </div>
+                  // --- FIN: EFECTO HOVER APLICADO ---
                 ))}
               </div>
             </AnimatedSection>

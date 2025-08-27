@@ -91,7 +91,7 @@ export default function TecnologiaPage() {
 
   return (
     <div className="bg-white dark:bg-gray-900">
-      {/* --- Hero Banner (IMAGEN ACTUALIZADA) --- */}
+      {/* --- Hero Banner --- */}
       <section 
         className="relative h-[60vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center text-white" 
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80')" }}
@@ -170,9 +170,15 @@ export default function TecnologiaPage() {
             <div className="space-y-16">
               {projects.map((project, index) => (
                 <AnimatedSection key={index} className="delay-[200ms]">
-                  <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12`}>
+                  <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12 group`}>
                     <div className="w-full md:w-1/2 rounded-lg overflow-hidden shadow-xl">
-                      <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
+                      {/* --- INICIO: EFECTO ZOOM APLICADO --- */}
+                      <img 
+                        src={project.imageUrl} 
+                        alt={project.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" 
+                      />
+                      {/* --- FIN: EFECTO ZOOM APLICADO --- */}
                     </div>
                     <div className="w-full md:w-1/2">
                       <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">{project.title}</h3>

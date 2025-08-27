@@ -229,14 +229,20 @@ export default function InmobiliariaPage() {
                   <AnimatedSection key={prop.id} style={{ transitionDelay: `${index * 100}ms` }}>
                     <Link to={`/inmobiliaria/${prop.id}`} className="block group h-full">
                       <div className="relative bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:dark:shadow-teal-500/20 group-hover:-translate-y-2">
-                        <div className="relative">
-                          <img src={prop.imagenUrl} alt={prop.nombre} className="w-full h-56 object-cover" />
+                        {/* --- INICIO: EFECTO ZOOM APLICADO --- */}
+                        <div className="relative overflow-hidden">
+                          <img 
+                            src={prop.imagenUrl} 
+                            alt={prop.nombre} 
+                            className="w-full h-56 object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" 
+                          />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                           <p className="absolute bottom-4 left-4 text-white text-lg font-semibold">{prop.nombre}</p>
                           <button onClick={(e) => toggleFavorito(e, prop.id)} className="absolute top-4 right-4 bg-black/40 p-2 rounded-full text-white hover:bg-red-500 transition-colors z-10">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" fill={favoritos.includes(prop.id) ? 'currentColor' : 'none'}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                           </button>
                         </div>
+                        {/* --- FIN: EFECTO ZOOM APLICADO --- */}
                         <div className="p-6">
                           <p className="text-teal-600 dark:text-teal-400 font-bold text-2xl mb-4">${prop.precio.toLocaleString()}</p>
                           <div className="flex justify-between text-gray-600 dark:text-gray-400">
