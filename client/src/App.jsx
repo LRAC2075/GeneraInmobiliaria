@@ -1,20 +1,28 @@
+// src/App.jsx
+
+// --- LIBRERÍAS ---
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+
+// --- CONTEXTOS ---
 import { ThemeProvider } from './context/ThemeContext';
 import { ModalProvider, useModal } from './context/ModalContext';
+import { AudioProvider } from './context/AudioContext.jsx';
+
+// --- COMPONENTES ---
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+// --- PÁGINAS ---
 import ContactoPage from './pages/ContactoPage';
 import HomePage from './pages/HomePage';
 import InmobiliariaPage from './pages/InmobiliariaPage';
 import PropiedadPage from './pages/PropiedadPage';
 import CateringPage from './pages/CateringPage';
 import TecnologiaPage from './pages/TecnologiaPage';
-import React, { useEffect } from 'react';
-import { AudioProvider } from './context/AudioContext.jsx';
 
-// ===============================================
-// CORRECCIÓN 1: RUTA Y NOMBRE DEL ARCHIVO DE AUDIO
-// ===============================================
+// URL del archivo de música
 const backgroundMusicSrc = "/Digital Zenith.mp3";
 
 // Componente para el Modal Global
@@ -71,14 +79,12 @@ function App() {
     }
   }, []);
 
-  // ===============================================
-  // CORRECCIÓN 2: ESTRUCTURA DE PROVIDERS ANIDADOS
-  // ===============================================
   return (
     <ThemeProvider>
       <ModalProvider>
         <AudioProvider audioSrc={backgroundMusicSrc}>
           <BrowserRouter>
+            <ScrollToTop />
             <AppContent />
           </BrowserRouter>
         </AudioProvider>

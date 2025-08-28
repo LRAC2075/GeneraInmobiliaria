@@ -102,14 +102,26 @@ const ProcessHighlightCard = ({ iconPath, title, description }) => (
     </div>
 );
 
-// Sub-componente para contador animado
+// En tu archivo HomePage.jsx
+
+// Sub-componente para contador animado (VERSIÓN CORREGIDA)
 const AnimatedCounter = ({ end, suffix = '', title }) => {
-  const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5, triggerOnce: true });
+  const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5 });
+  // --- CAMBIO 1: Añadimos un estado para recordar si la animación ya ocurrió ---
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  // --- CAMBIO 2: Usamos useEffect para actualizar el estado solo una vez ---
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
 
   return (
     <div ref={setNode} className="text-center">
       <p className="text-4xl md:text-5xl font-bold text-light-accent dark:text-brand-gold">
-        {isVisible ? <CountUp end={end} duration={2.5} /> : '0'}
+        {/* --- CAMBIO 3: La lógica ahora depende de si ya se ha animado --- */}
+        {hasAnimated ? <CountUp end={end} duration={2.5} /> : '0'}
         {suffix}
       </p>
       <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-2">{title}</p>
