@@ -5,11 +5,122 @@
     <!--<link rel="icon" type="image/svg+xml" href="/Generalnmobiliaria_original.svg"/>-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GENERA S.A.C.</title>
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <style>
+      /* Estilo base del contenedor del loader */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background-color: #ffffff; /* Fondo claro por defecto */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Ocultar el loader */
+      #loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* Contenedor del logo (el círculo delimitador) */
+      .loader-content {
+        position: relative;
+        /* Tamaño fijo para evitar el parpadeo */
+        width: 120px; 
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Círculo delimitador sutil */
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 50%;
+      }
+
+      /* Spinner animado con efecto de aura */
+      .loader-spinner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent; /* El círculo base es transparente */
+        border-top-color: #0d9488; /* Color del spinner (Teal) */
+        border-radius: 50%;
+        animation: spin 1.2s linear infinite;
+        /* Efecto de Aura (NUEVO) */
+        box-shadow: 0 0 15px 1px rgba(13, 148, 136, 0.5); 
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Estilo para los logos SVG, asegurando que no se desborden */
+      .loader-content img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain; /* Previene distorsión */
+      }
+
+      /* --- MODO OSCURO (Ahora controlado por la clase .dark en <html>) --- */
+      
+      /* Por defecto, el logo oscuro está oculto */
+      #logo-dark {
+        display: none;
+      }
+      
+      /* Mostramos el logo claro por defecto */
+      .dark #logo-light {
+        display: none;
+      }
+
+      .dark #logo-dark {
+        display: block;
+      }
+
+      .dark #loader {
+        background-color: #0f172a; /* Fondo oscuro (slate-900) */
+      }
+
+      .dark .loader-content {
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .loader-spinner {
+        /* El color del spinner ahora es un Teal más vibrante (teal-500) */
+        border-top-color: #14b8a6; /* CAMBIADO */
+        /* El aura ahora coincide con el nuevo color del spinner */
+        box-shadow: 0 0 15px 1px rgba(20, 184, 166, 0.5); /* CAMBIADO */
+      }
+    </style>
   </head>
   <body>
+    <div id="loader">
+      <div class="loader-content">
+        <img src="src\assets\GeneraInmobiliaria_claro.svg" id="logo-light" alt="Logo GENERA">
+        <img src="src\assets\GeneraInmobiliaria_oscuro.svg" id="logo-dark" alt="Logo GENERA">
+        <div class="loader-spinner"></div>
+      </div>
+    </div>
     <!-- Aquí es donde se montará toda la aplicación de React -->
     <div id="root"></div>
-    
+
     <!-- El script principal de la aplicación -->
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -9,6 +9,7 @@ import InmobiliariaPage from './pages/InmobiliariaPage';
 import PropiedadPage from './pages/PropiedadPage';
 import CateringPage from './pages/CateringPage';
 import TecnologiaPage from './pages/TecnologiaPage';
+import React, { useEffect } from 'react';
 
 // Componente para el Modal Global
 const GlobalContactModal = () => {
@@ -57,6 +58,23 @@ const AppContent = () => {
 
 // Componente raíz de la aplicación
 function App() {
+  
+  // ===============================================
+  // LÓGICA PARA OCULTAR EL LOADER - INICIO
+  // ===============================================
+  useEffect(() => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+      // Espera un poco para que no sea tan brusco (opcional)
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 500); // 500ms de delay
+    }
+  }, []); // El array vacío asegura que se ejecute solo una vez al montar el componente
+  // ===============================================
+  // LÓGICA PARA OCULTAR EL LOADER - FIN
+  // ===============================================
+
   return (
     <ThemeProvider>
       <ModalProvider>
