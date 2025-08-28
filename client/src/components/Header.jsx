@@ -3,6 +3,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useModal } from '../context/ModalContext';
 import logoClaro from '../assets/GeneraInmobiliaria_claro.svg';
 import logoOscuro from '../assets/GeneraInmobiliaria_oscuro.svg';
+import AudioToggleButton from './AudioToggleButton';
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
@@ -43,21 +44,19 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* --- CAMBIO 1: BREAKPOINT AJUSTADO DE 'md' A 'lg' PARA EVITAR SUPERPOSICIÓN --- */}
           <div className="hidden lg:flex items-center ml-4 pl-4 border-l border-gray-300 dark:border-gray-600">
             <div className="flex flex-col text-left">
-                {/* --- CAMBIO 2: APLICADOS COLORES DE ACENTO PARA MAYOR DINAMISMO --- */}
-                <span className="text-2xl font-bold text-light-accent dark:text-brand-gold leading-tight transition-colors duration-300">
-                    {experienceYears}
-                </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400 tracking-wide">
-                    Años de Experiencia
-                </span>
+              <span className="text-2xl font-bold text-light-accent dark:text-brand-gold leading-tight transition-colors duration-300">
+                  {experienceYears}
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 tracking-wide">
+                  Años de Experiencia
+              </span>
             </div>
           </div>
         </div>
         
-        <div className="flex items-center space-x-2 sm:space-x-6">
+        <div className="flex items-center space-x-2 sm:space-x-4"> {/* Ajusté un poco el espaciado para dar cabida al nuevo botón */}
           <ul className="hidden md:flex items-center space-x-8 text-lg">
             <li><NavLink to="/inmobiliaria" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Inmobiliaria</NavLink></li>
             <li><NavLink to="/catering" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Catering</NavLink></li>
@@ -71,6 +70,12 @@ const Header = () => {
             Contáctanos
           </button>
           
+          {/* =============================================== */}
+          {/* BOTÓN DE MÚSICA AÑADIDO AQUÍ                  */}
+          {/* =============================================== */}
+          <AudioToggleButton />
+          {/* =============================================== */}
+
           <button onClick={toggleTheme} className="p-2 rounded-full bg-light-subtle dark:bg-gray-800">
             {theme === 'light' ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>

@@ -3,13 +3,19 @@ import { ThemeProvider } from './context/ThemeContext';
 import { ModalProvider, useModal } from './context/ModalContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ContactoPage from './pages/ContactoPage'; // Se importa una sola vez aquí
+import ContactoPage from './pages/ContactoPage';
 import HomePage from './pages/HomePage';
 import InmobiliariaPage from './pages/InmobiliariaPage';
 import PropiedadPage from './pages/PropiedadPage';
 import CateringPage from './pages/CateringPage';
 import TecnologiaPage from './pages/TecnologiaPage';
 import React, { useEffect } from 'react';
+import { AudioProvider } from './context/AudioContext.jsx';
+
+// ===============================================
+// CORRECCIÓN 1: RUTA Y NOMBRE DEL ARCHIVO DE AUDIO
+// ===============================================
+const backgroundMusicSrc = "/Digital Zenith.mp3";
 
 // Componente para el Modal Global
 const GlobalContactModal = () => {
@@ -25,7 +31,6 @@ const GlobalContactModal = () => {
         className="bg-light-card dark:bg-gray-900 rounded-lg shadow-2xl w-full max-w-lg relative"
         onClick={e => e.stopPropagation()}
       >
-        {/* Se utiliza el componente ContactoPage importado */}
         <ContactoPage isModal={true} closeModal={closeModal} />
       </div>
     </div>
@@ -47,7 +52,6 @@ const AppContent = () => {
           <Route path="/inmobiliaria/:id" element={<PropiedadPage />} />
           <Route path="/catering" element={<CateringPage />} />
           <Route path="/tecnologia" element={<TecnologiaPage />} />
-          {/* La ruta a /contacto ya no es necesaria porque se maneja con el modal */}
         </Routes>
       </main>
       <GlobalContactModal />
@@ -58,29 +62,26 @@ const AppContent = () => {
 
 // Componente raíz de la aplicación
 function App() {
-  
-  // ===============================================
-  // LÓGICA PARA OCULTAR EL LOADER - INICIO
-  // ===============================================
   useEffect(() => {
     const loader = document.getElementById('loader');
     if (loader) {
-      // Espera un poco para que no sea tan brusco (opcional)
       setTimeout(() => {
         loader.classList.add('hidden');
-      }, 500); // 500ms de delay
+      }, 500);
     }
-  }, []); // El array vacío asegura que se ejecute solo una vez al montar el componente
-  // ===============================================
-  // LÓGICA PARA OCULTAR EL LOADER - FIN
-  // ===============================================
+  }, []);
 
+  // ===============================================
+  // CORRECCIÓN 2: ESTRUCTURA DE PROVIDERS ANIDADOS
+  // ===============================================
   return (
     <ThemeProvider>
       <ModalProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <AudioProvider audioSrc={backgroundMusicSrc}>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </AudioProvider>
       </ModalProvider>
     </ThemeProvider>
   );
