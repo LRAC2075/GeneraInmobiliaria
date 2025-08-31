@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "generasac-9b439"
-  }
+    "default": "generasac-9b439",
+    "genera-prod": "genera-web"
+  },
+  "targets": {},
+  "etags": {}
 }

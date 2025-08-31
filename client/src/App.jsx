@@ -13,6 +13,7 @@ import { AudioProvider } from './context/AudioContext.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import WhatsAppButton from './components/WhatsAppButton';
 
 // --- PÁGINAS ---
 import ContactoPage from './pages/ContactoPage';
@@ -64,6 +65,7 @@ const AppContent = () => {
       </main>
       <GlobalContactModal />
       {!isHomePage && <Footer />}
+      <WhatsAppButton />
     </div>
   );
 };
