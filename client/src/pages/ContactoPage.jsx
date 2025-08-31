@@ -1,6 +1,21 @@
 import { useState } from 'react';
+import { FaWhatsapp } from 'react-icons/fa';
 
-// ... (Los componentes FormFieldWithIcon y ContactInfoItem no cambian)
+// --- NUEVO COMPONENTE: Toast de Notificación ---
+// Este componente mostrará un mensaje emergente para confirmar la acción de copiado.
+const Toast = ({ message, show }) => {
+  return (
+    <div
+      className={`fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 rounded-lg shadow-lg transition-all duration-300 ease-in-out z-50
+        ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
+      `}
+    >
+      {message}
+    </div>
+  );
+};
+
+// Componente FormFieldWithIcon (SIN CAMBIOS)
 const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, required, iconPath }) => {
   const isTextarea = type === 'textarea';
   const commonProps = {
@@ -31,6 +46,7 @@ const FormFieldWithIcon = ({ id, name, type = 'text', label, value, onChange, re
   );
 };
 
+// Componente ContactInfoItem (SIN CAMBIOS)
 const ContactInfoItem = ({ iconPath, title, value, href }) => (
     <div className="flex items-center space-x-4">
         <div className="flex-shrink-0">
@@ -50,9 +66,8 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
   const [formData, setFormData] = useState({ nombre: '', email: '', asunto: '', mensaje: '' });
   const [status, setStatus] = useState({ submitted: false, message: '', isError: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // --- ¡IMPORTANTE! Pega aquí la URL que copiaste de Formspree ---
-  const FORMSPREE_URL = 'https://formspree.io/f/mldlqypg'; // <-- REEMPLAZA ESTO
+  const [toastMessage, setToastMessage] = useState('');
+  const FORMSPREE_URL = 'https://formspree.io/f/mldlqypg';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,15 +82,11 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
     try {
       const response = await fetch(FORMSPREE_URL, {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        // Formspree devuelve errores en el cuerpo de la respuesta
         const data = await response.json();
         const errorMessage = data.errors?.map(err => err.message).join(', ') || 'Algo salió mal.';
         throw new Error(errorMessage);
@@ -94,6 +105,37 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleWhatsAppSubmit = () => {
+    const phoneNumber = '51999435374';
+    const { nombre, asunto, mensaje } = formData;
+    
+    let messageToCopy;
+
+    if (nombre || asunto || mensaje) {
+      const messageParts = [
+        `*¡Hola! Estoy interesado en sus servicios.*`,
+        `*Nombre:* ${nombre || 'No especificado'}`,
+        `*Asunto:* ${asunto || 'No especificado'}`,
+        `*Mensaje:* ${mensaje || 'No especificado'}`
+      ];
+      messageToCopy = messageParts.join('\n\n');
+    } else {
+      messageToCopy = 'Hola, quisiera hacer una consulta sobre sus servicios.';
+    }
+
+    navigator.clipboard.writeText(messageToCopy).then(() => {
+      setToastMessage('¡Mensaje copiado! Pégalo en el chat.');
+      setTimeout(() => setToastMessage(''), 3000);
+    }).catch(err => {
+      console.error('Error al copiar el texto: ', err);
+      setToastMessage('Error al copiar el mensaje.');
+      setTimeout(() => setToastMessage(''), 3000);
+    });
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const scrollbarHideClasses = "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]";
@@ -115,9 +157,20 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
           <FormFieldWithIcon id="asunto" name="asunto" label="Asunto" value={formData.asunto} onChange={handleChange} required iconPath="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
           <FormFieldWithIcon id="mensaje" name="mensaje" type="textarea" label="Mensaje" value={formData.mensaje} onChange={handleChange} required iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" />
           
-          <button type="submit" disabled={isSubmitting} className="w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 rounded-lg hover:opacity-90 transition-all !mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
-            {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 !mt-6">
+            <button type="submit" disabled={isSubmitting} className="flex-1 bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              {isSubmitting ? 'Enviando...' : 'Enviar por Correo'}
+            </button>
+            <button type="button" onClick={handleWhatsAppSubmit} className="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-all flex items-center justify-center gap-2">
+              <FaWhatsapp size={20} />
+              <span>Copiar y Abrir WhatsApp</span>
+            </button>
+          </div>
+          
+          {/* --- TEXTO DE AYUDA MEJORADO --- */}
+          <p className="text-xs text-center text-gray-500 dark:text-gray-400 pt-2">
+            Al usar el botón de WhatsApp, tu consulta se copiará para que la pegues en el chat.
+          </p>
           
           {status.submitted && (
             <p className={`mt-4 text-center ${status.isError ? 'text-red-500' : 'text-green-500'}`}>
@@ -133,8 +186,11 @@ const ContactoPage = ({ isModal = false, closeModal }) => {
           <ContactInfoItem iconPath="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" title="Contacto General" value="contacto@generainmobiliaria.com.pe" href="mailto:contacto@generainmobiliaria.com.pe" />
         </div>
       </div>
+
+      <Toast message={toastMessage} show={!!toastMessage} />
     </div>
   );
 };
 
 export default ContactoPage;
+

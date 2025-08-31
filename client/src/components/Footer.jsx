@@ -61,6 +61,7 @@ const FooterWhatsAppItem = ({ title, number, displayNumber }) => {
         target="_blank" 
         rel="noopener noreferrer"
         className="text-gray-600 dark:text-gray-400 hover:text-light-accent dark:hover:text-brand-gold transition-colors text-sm flex items-center gap-2"
+        title="Chatea con nosotros en WhatsApp"      
       >
         <FaWhatsapp className="text-green-500" />
         <span>{displayNumber}</span>
