@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { FaWhatsapp } from 'react-icons/fa';
 
 // Sub-componente para una columna colapsable (SIN CAMBIOS)
 const CollapsibleColumn = ({ title, children }) => {
@@ -49,6 +50,25 @@ const FooterContactItem = ({ title, email }) => (
   </div>
 );
 
+// --- 2. NUEVO SUB-COMPONENTE PARA WHATSAPP ---
+const FooterWhatsAppItem = ({ title, number, displayNumber }) => {
+  const whatsappUrl = `https://wa.me/${number}`;
+  return (
+    <div>
+      <h5 className="font-semibold text-light-text dark:text-white mb-1 text-base">{title}</h5>
+      <a 
+        href={whatsappUrl} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-gray-600 dark:text-gray-400 hover:text-light-accent dark:hover:text-brand-gold transition-colors text-sm flex items-center gap-2"
+      >
+        <FaWhatsapp className="text-green-500" />
+        <span>{displayNumber}</span>
+      </a>
+    </div>
+  );
+};
+
 const Footer = () => {
   return (
     <footer className="bg-light-subtle dark:bg-gray-900 text-base">
@@ -82,6 +102,12 @@ const Footer = () => {
               <FooterContactItem 
                 title="Evy Marin"
                 email="evy.marin@generainmobiliaria.com.pe"
+              />
+              {/* --- 3. COMPONENTE DE WHATSAPP--- */}
+              <FooterWhatsAppItem
+                title="WhatsApp"
+                number="51999435374" // Número para la URL (sin +, sin espacios)
+                displayNumber="+51 999 435 374" // Número para mostrar al usuario
               />
             </div>
           </CollapsibleColumn>
