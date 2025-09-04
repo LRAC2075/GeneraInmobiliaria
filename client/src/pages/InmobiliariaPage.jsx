@@ -279,6 +279,89 @@ export default function InmobiliariaPage() {
             </AnimatedSection>
           </div>
         </section>
+                {/* --- Sección de Otros Servicios --- */}
+        <section className="py-20 px-4 bg-white dark:bg-gray-900">
+          <div className="container mx-auto">
+            <AnimatedSection>
+              <SectionHeader 
+                title="Descubre Nuestros Otros Servicios"
+                subtitle="Explora todas las soluciones que GENERA tiene para ofrecerte"
+              />
+            </AnimatedSection>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
+              {/* Tarjeta para Catering */}
+              <AnimatedSection style={{ transitionDelay: '100ms' }}>
+                <Link 
+                  to="/catering" 
+                  className="block group h-full"
+                  aria-label="Explorar servicios de Catering"
+                >
+                  <div className="relative bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div className="relative overflow-hidden h-48">
+                      <img 
+                        src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                        alt="Servicios de Catering" 
+                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <h3 className="text-xl font-bold text-white">Catering</h3>
+                        <p className="text-teal-300 text-sm mt-1">Experiencias gastronómicas excepcionales</p>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <p className="text-gray-600 dark:text-gray-300">
+                        Servicios culinarios premium para eventos corporativos y celebraciones especiales, con menús personalizados y atención de primera clase.
+                      </p>
+                      <div className="mt-4 flex items-center text-teal-600 dark:text-teal-400 font-semibold group-hover:underline">
+                        Descubrir más
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </AnimatedSection>
+
+              {/* Tarjeta para Tecnología */}
+              <AnimatedSection style={{ transitionDelay: '200ms' }}>
+                <Link 
+                  to="/tecnologia" 
+                  className="block group h-full"
+                  aria-label="Explorar servicios de Tecnología"
+                >
+                  <div className="relative bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div className="relative overflow-hidden h-48">
+                      <img 
+                        src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                        alt="Servicios de Tecnología" 
+                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <h3 className="text-xl font-bold text-white">Tecnología</h3>
+                        <p className="text-teal-300 text-sm mt-1">Soluciones digitales innovadoras</p>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <p className="text-gray-600 dark:text-gray-300">
+                        Desarrollo de software a medida, aplicaciones web y móviles, y consultoría tecnológica para transformar tu negocio digitalmente.
+                      </p>
+                      <div className="mt-4 flex items-center text-teal-600 dark:text-teal-400 font-semibold group-hover:underline">
+                        Descubrir más
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </AnimatedSection>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );

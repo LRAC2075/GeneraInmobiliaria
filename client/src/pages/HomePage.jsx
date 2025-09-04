@@ -10,7 +10,7 @@ import 'swiper/css/effect-fade';
 
 import CountUp from 'react-countup';
 
-// Hook genérico para observar la intersección
+// Hook genérico para observar la intersección (sin cambios)
 const useIntersectionObserver = (options) => {
   const [entry, setEntry] = useState(null);
   const [node, setNode] = useState(null);
@@ -27,7 +27,7 @@ const useIntersectionObserver = (options) => {
   return [setNode, entry?.isIntersecting];
 };
 
-// Componente animado reutilizable
+// Componente animado reutilizable (sin cambios)
 const AnimatedSection = ({ children, className = '', id = '' }) => {
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
   return (
@@ -41,67 +41,36 @@ const AnimatedSection = ({ children, className = '', id = '' }) => {
   );
 };
 
-// Sub-componente para la lista de características
-const ServiceFeatureList = ({ features }) => (
-  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-    {features.map((feature, index) => (
-      <div key={index} className="flex items-center space-x-3">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
-        <span className="text-gray-600 dark:text-gray-400">{feature}</span>
-      </div>
-    ))}
+// Nuevo componente: Tarjeta de Servicio
+const ServiceCard = ({ icon, title, description, features, linkTo }) => (
+  <div className="bg-light-card dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-2">
+    <div className="flex items-center justify-center h-16 w-16 mx-auto mb-6 bg-light-accent dark:bg-brand-gold rounded-full">
+      {icon}
+    </div>
+    <h3 className="text-2xl font-bold text-light-text dark:text-white mb-4 text-center">{title}</h3>
+    <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">{description}</p>
+    
+    <div className="mb-6">
+      {features.map((feature, index) => (
+        <div key={index} className="flex items-center space-x-3 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <span className="text-gray-600 dark:text-gray-400 text-sm">{feature}</span>
+        </div>
+      ))}
+    </div>
+    
+    <Link
+      to={linkTo}
+      className="block w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity text-center"
+    >
+      Descubrir más
+    </Link>
   </div>
 );
 
-// Componente para las secciones de servicio
-const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageLeft = false }) => {
-  const imageOrder = imageLeft ? 'md:order-1' : 'md:order-2';
-  const textOrder = imageLeft ? 'md:order-2' : 'md:order-1';
-
-  return (
-    <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className={`${imageOrder} overflow-hidden rounded-lg shadow-2xl`}>
-            <img 
-              src={imageUrl} 
-              alt={title} 
-              className="w-full h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110" 
-            />
-          </div>
-          <div className={textOrder}>
-            <h3 className="text-4xl font-bold text-light-text dark:text-white mb-4">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">{description}</p>
-            {features && <ServiceFeatureList features={features} />}
-            <Link
-              to={linkTo}
-              className="inline-block mt-8 bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
-            >
-              Más Información
-            </Link>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
-};
-
-// Sub-componente para las tarjetas de proceso
-const ProcessHighlightCard = ({ iconPath, title, description }) => (
-    <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
-        <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
-            </svg>
-        </div>
-        <h4 className="font-bold text-lg text-light-text dark:text-white mb-2">{title}</h4>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
-    </div>
-);
-
-// Componente contador animado
+// Componente contador animado (sin cambios)
 const AnimatedCounter = ({ end, suffix = '', title }) => {
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5 });
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -123,10 +92,23 @@ const AnimatedCounter = ({ end, suffix = '', title }) => {
   );
 };
 
+// Sub-componente para las tarjetas de proceso (sin cambios)
+const ProcessHighlightCard = ({ iconPath, title, description }) => (
+  <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+    <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+      </svg>
+    </div>
+    <h4 className="font-bold text-lg text-light-text dark:text-white mb-2">{title}</h4>
+    <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
+  </div>
+);
+
 const HomePage = () => {
   const { openModal } = useModal();
   
-  // Efecto para manejar hash al cargar la página
+  // Efecto para manejar hash al cargar la página (sin cambios)
   useEffect(() => {
     const handleHashOnLoad = () => {
       if (window.location.hash) {
@@ -147,13 +129,8 @@ const HomePage = () => {
     };
 
     handleHashOnLoad();
-
-    const handleHashChange = () => {
-      handleHashOnLoad();
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleHashOnLoad);
+    return () => window.removeEventListener('hashchange', handleHashOnLoad);
   }, []);
 
   const heroSlides = [
@@ -162,11 +139,48 @@ const HomePage = () => {
     { img: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=2070&auto=format&fit=crop' }
   ];
 
+  // Datos para las tarjetas de servicios
+  const services = [
+    {
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      ),
+      title: "Desarrollo Inmobiliario",
+      description: "Espacios residenciales y comerciales que definen el lujo y la funcionalidad.",
+      features: ['Consultoría y Adquisición', 'Diseño Arquitectónico', 'Construcción de Alta Gama', 'Gestión de Proyectos'],
+      linkTo: "/inmobiliaria"
+    },
+    {
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      title: "Eventos y Catering",
+      description: "Experiencias memorables con servicio de catering de clase mundial.",
+      features: ['Planificación Integral', 'Catering Gourmet', 'Diseño de Ambientes', 'Coordinación Logística'],
+      linkTo: "/catering"
+    },
+    {
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        </svg>
+      ),
+      title: "Tecnología e Iluminación",
+      description: "Soluciones tecnológicas de vanguardia para transformar espacios.",
+      features: ['Domótica y Automatización', 'Diseño de Iluminación LED', 'Sistemas de Audio/Video', 'Instalaciones Interactivas'],
+      linkTo: "/tecnologia"
+    }
+  ];
+
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
       {/* ================= SECCIÓN INICIO ================= */}
       <section id="inicio" className="relative h-screen w-full text-center">
-          <Swiper
+        <Swiper
           modules={[Autoplay, EffectFade]} 
           spaceBetween={30}
           centeredSlides={true}
@@ -188,25 +202,14 @@ const HomePage = () => {
         </Swiper>
         
         <div className="absolute inset-0 z-10 flex items-center justify-center">
-            <div className="relative px-4">
-                <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-4">
-                    Transformando Ideas en Realidad
-                </h1>
-                <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                    Soluciones de vanguardia en desarrollo inmobiliario, producción de eventos y tecnología de diseño.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Link to="/inmobiliaria" className="bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold text-lg px-6 py-3 rounded-full hover:opacity-90 transition-all duration-300 w-full sm:w-auto">
-                        Inmobiliaria
-                    </Link>
-                    <Link to="/catering" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
-                        Catering y Eventos
-                    </Link>
-                    <Link to="/tecnologia" className="border-2 border-light-accent dark:border-brand-gold text-white font-bold text-lg px-6 py-3 rounded-full hover:bg-light-accent dark:hover:bg-brand-gold hover:text-light-text dark:hover:text-brand-dark transition-all duration-300 w-full sm:w-auto">
-                        Tecnología
-                    </Link>
-                </div>
-            </div>
+          <div className="relative px-4">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-4">
+              Transformando Ideas en Realidad
+            </h1>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+              Soluciones de vanguardia en desarrollo inmobiliario, producción de eventos y tecnología de diseño.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -214,14 +217,14 @@ const HomePage = () => {
       <AnimatedSection id="quienes-somos" className="py-16 sm:py-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="text-center flex flex-col justify-center h-full">
+            <div className="text-center md:text-left">
               <SectionHeader
                 title="Quiénes Somos"
-                subtitle="GENERA es el resultado de la visión y pasión por la excelencia. Fundada en 2005, nuestra misión siempre ha sido la de transformar ideas en realidades tangibles, superando las expectativas en cada proyecto."
-                className="max-w-3xl mx-auto mb-8" 
+                subtitle="GENERA es el resultado de la visión y pasión por la excelencia. Fundada en 2005, nuestra misión siempre ha sido transformar ideas en realidades tangibles, superando expectativas en cada proyecto."
+                className="max-w-3xl mx-auto md:mx-0 mb-8" 
               />
-              <p className="text-gray-600 dark:text-gray-400 mt-6 text-xl font-serif italic max-w-2xl mx-auto leading-relaxed mb-8">
-                "Creemos en la fusión de la artesanía tradicional con la innovación tecnológica. Este enfoque nos permite entregar resultados que no solo son estéticamente impecables, sino también funcionales y sostenibles a largo plazo."
+              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
+                Creemos en la fusión de la artesanía tradicional con la innovación tecnológica. Este enfoque nos permite entregar resultados que no solo son estéticamente impecables, sino también funcionales y sostenibles a largo plazo.
               </p>
             </div>
             <div className="h-80 md:h-full">
@@ -232,43 +235,87 @@ const HomePage = () => {
               />
             </div>
           </div>
+        </div>
+      </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 text-center">
+      {/* ================= SECCIÓN NUESTROS SERVICIOS ================= */}
+      <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <SectionHeader
+            title="Nuestros Servicios"
+            subtitle="Ofrecemos soluciones integrales en tres áreas especializadas, siempre con el mismo compromiso: excelencia, innovación y satisfacción del cliente."
+            className="text-center mb-16"
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+                features={service.features}
+                linkTo={service.linkTo}
+              />
+            ))}
+          </div>
+        </div>
+      </AnimatedSection>
+
+      {/* ================= SECCIÓN EXPERIENCIA ================= */}
+      <AnimatedSection id="experiencia" className="py-16 sm:py-24">
+        <div className="container mx-auto px-4">
+          <SectionHeader
+            title="Nuestra Experiencia"
+            subtitle="A lo largo de los años, hemos acumulado logros y experiencias que nos respaldan"
+            className="text-center mb-16"
+          />
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {/* Columna de Logros Destacados */}
+            <div>
+              <h3 className="text-3xl font-bold text-light-text dark:text-white mb-6">Logros Destacados</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start space-x-3">
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Más de 50 proyectos inmobiliarios entregados</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Eventos corporativos para empresas Fortune 500</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Tecnología implementada en espacios premium</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Reconocimientos por innovación y diseño</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Columna de la Imagen */}
+            <div className="h-80">
+              <img 
+                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop" 
+                alt="Logros y reconocimientos de GENERA"
+                className="rounded-lg shadow-2xl w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Contadores Animados con espaciado superior */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
             <AnimatedCounter end={new Date().getFullYear() - 2005} title="Años de Trayectoria" />
             <AnimatedCounter end={150} suffix="+" title="Proyectos Completados" />
             <AnimatedCounter end={100} suffix="+" title="Clientes Satisfechos" />
           </div>
+
         </div>
       </AnimatedSection>
-      
-      {/* ================= SECCIÓN EXPERIENCIA ================= */}
-      <div id="experiencia">
-        <ServiceSection
-          imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop"
-          title="Desarrollo Inmobiliario"
-          description="Creamos espacios residenciales y comerciales que definen el lujo y la funcionalidad. Desde la concepción hasta la entrega, gestionamos cada detalle para construir propiedades de valor duradero."
-          features={['Consultoría y Adquisición', 'Diseño Arquitectónico', 'Construcción de Alta Gama', 'Gestión de Proyectos']}
-          linkTo="/inmobiliaria"
-          imageLeft={true}
-        />
-        <ServiceSection
-          imageUrl="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop"
-          title="Eventos y Catering"
-          description="Producimos eventos memorables con un servicio de catering de clase mundial. Nos especializamos en crear experiencias inmersivas, cuidando la gastronomía, el ambiente y la logística para cualquier ocasión, desde reuniones corporativas hasta celebraciones privadas."
-          features={['Planificación Integral', 'Catering Gourmet', 'Diseño de Ambientes', 'Coordinación Logística']}
-          linkTo="/catering"
-          imageLeft={false}
-        />
-        <ServiceSection
-          imageUrl="https://images.unsplash.com/photo-1534430480872-3498386e7856?q=80&w=2070&auto=format&fit=crop"
-          title="Tecnología de Diseño e Iluminación"
-          description="Integramos soluciones tecnológicas de vanguardia para transformar cualquier espacio. Nuestro equipo experto diseña e implementa sistemas de automatización, sonido envolvente y proyectos de iluminación artística que crean atmósferas únicas y funcionales."
-          features={['Domótica y Automatización', 'Diseño de Iluminación LED', 'Sistemas de Audio y Video', 'Instalaciones Interactivas']}
-          linkTo="/tecnologia"
-          imageLeft={true}
-        />
-      </div>
 
+      {/* ================= SECCIÓN CALL TO ACTION ================= */}
       <AnimatedSection className="py-16 sm:py-24 text-center bg-light-subtle dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-light-text dark:text-white mb-4">¿Tienes un proyecto en mente?</h2>
@@ -277,21 +324,21 @@ const HomePage = () => {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <ProcessHighlightCard 
-                iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
-                title="Consulta y Diseño"
-                description="Iniciamos con una consulta profunda para entender tus necesidades y traducirlas en un concepto innovador."
-              />
-              <ProcessHighlightCard 
-                iconPath="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                title="Ejecución Precisa"
-                description="Gestionamos cada detalle, asegurando los más altos estándares de calidad y cumplimiento de plazos."
-              />
-              <ProcessHighlightCard 
-                iconPath="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
-                title="Entrega y Soporte"
-                description="Entregamos un resultado final que supera las expectativas y ofrecemos soporte continuo para tu satisfacción."
-              />
+            <ProcessHighlightCard 
+              iconPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"
+              title="Consulta y Diseño"
+              description="Iniciamos con una consulta profunda para entender tus necesidades y traducirlas en un concepto innovador."
+            />
+            <ProcessHighlightCard 
+              iconPath="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              title="Ejecución Precisa"
+              description="Gestionamos cada detalle, asegurando los más altos estándares de calidad y cumplimiento de plazos."
+            />
+            <ProcessHighlightCard 
+              iconPath="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+              title="Entrega y Soporte"
+              description="Entregamos un resultado final que supera las expectativas y ofrecemos soporte continuo para tu satisfacción."
+            />
           </div>
 
           <button

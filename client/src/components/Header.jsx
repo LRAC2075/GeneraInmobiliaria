@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useModal } from '../context/ModalContext';
 import logoClaro from '../assets/GeneraInmobiliaria_claro.svg';
@@ -9,34 +9,50 @@ import { useEffect, useState } from 'react';
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const { openModal } = useModal();
+  const location = useLocation(); // Hook para obtener la ruta actual
 
   const foundingYear = 2005;
   const currentYear = new Date().getFullYear();
   const experienceYears = currentYear - foundingYear;
 
-  // Función para scroll suave a secciones
-  const scrollToSection = (hash, e) => {
+  // Función para manejar la navegación a secciones
+  const handleNavigation = (hash, e) => {
     if (e) e.preventDefault();
-    const element = document.querySelector(hash);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    // Si estamos en la página de inicio (/)
+    if (location.pathname === '/') {
+      // Hacer scroll suave a la sección
+      const element = document.querySelector(hash);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      
-      window.history.pushState(null, null, hash);
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Actualizar la URL con el hash
+        window.history.pushState(null, null, hash);
+      }
+    } else {
+      // Si estamos en otra página, navegar a HomePage con el hash
+      window.location.href = `/${hash}`;
     }
   };
 
-  // Hook para detectar sección activa
+  // Hook para detectar sección activa (solo funciona en HomePage)
   const useSectionActive = (hash) => {
     const [isActive, setIsActive] = useState(false);
     
     useEffect(() => {
+      // Solo verificar si estamos en la página de inicio
+      if (location.pathname !== '/') {
+        setIsActive(false);
+        return;
+      }
+      
       const checkActive = () => {
         const element = document.querySelector(hash);
         if (!element) return false;
@@ -49,7 +65,7 @@ const Header = () => {
       checkActive();
       window.addEventListener('scroll', checkActive);
       return () => window.removeEventListener('scroll', checkActive);
-    }, [hash]);
+    }, [hash, location.pathname]);
 
     return isActive;
   };
@@ -108,8 +124,8 @@ const Header = () => {
           <ul className="hidden md:flex items-center space-x-8 text-lg">
             <li>
               <a 
-                href="#inicio"
-                onClick={(e) => scrollToSection('#inicio', e)}
+                href="/#inicio"
+                onClick={(e) => handleNavigation('#inicio', e)}
                 className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
                   isInicioActive ? 'text-light-accent dark:text-brand-gold underline' : ''
                 }`}
@@ -119,8 +135,8 @@ const Header = () => {
             </li>
             <li>
               <a 
-                href="#quienes-somos"
-                onClick={(e) => scrollToSection('#quienes-somos', e)}
+                href="/#quienes-somos"
+                onClick={(e) => handleNavigation('#quienes-somos', e)}
                 className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
                   isQuienesSomosActive ? 'text-light-accent dark:text-brand-gold underline' : ''
                 }`}
@@ -130,8 +146,8 @@ const Header = () => {
             </li>
             <li>
               <a 
-                href="#experiencia"
-                onClick={(e) => scrollToSection('#experiencia', e)}
+                href="/#experiencia"
+                onClick={(e) => handleNavigation('#experiencia', e)}
                 className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
                   isExperienciaActive ? 'text-light-accent dark:text-brand-gold underline' : ''
                 }`}
