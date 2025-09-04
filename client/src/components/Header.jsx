@@ -1,9 +1,10 @@
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useModal } from '../context/ModalContext';
 import logoClaro from '../assets/GeneraInmobiliaria_claro.svg';
 import logoOscuro from '../assets/GeneraInmobiliaria_oscuro.svg';
 import AudioToggleButton from './AudioToggleButton';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
@@ -13,17 +14,64 @@ const Header = () => {
   const currentYear = new Date().getFullYear();
   const experienceYears = currentYear - foundingYear;
 
-  const activeLinkStyle = {
-    color: theme === 'dark' ? '#c3a478' : '#b59469',
-    textDecoration: 'underline',
+  // Función para scroll suave a secciones
+  const scrollToSection = (hash, e) => {
+    if (e) e.preventDefault();
+    const element = document.querySelector(hash);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      window.history.pushState(null, null, hash);
+    }
   };
+
+  // Hook para detectar sección activa
+  const useSectionActive = (hash) => {
+    const [isActive, setIsActive] = useState(false);
+    
+    useEffect(() => {
+      const checkActive = () => {
+        const element = document.querySelector(hash);
+        if (!element) return false;
+        
+        const rect = element.getBoundingClientRect();
+        const isVisible = rect.top <= 100 && rect.bottom >= 100;
+        setIsActive(isVisible);
+      };
+
+      checkActive();
+      window.addEventListener('scroll', checkActive);
+      return () => window.removeEventListener('scroll', checkActive);
+    }, [hash]);
+
+    return isActive;
+  };
+
+  const isInicioActive = useSectionActive('#inicio');
+  const isQuienesSomosActive = useSectionActive('#quienes-somos');
+  const isExperienciaActive = useSectionActive('#experiencia');
 
   return (
     <header className="bg-light-card dark:bg-brand-dark border-b border-light-subtle dark:border-gray-700 sticky top-0 z-20">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         
         <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-2 sm:gap-4">
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 sm:gap-4" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              window.history.pushState(null, null, '/');
+            }}
+          >
             <img 
               src={logoClaro} 
               alt="Logo de GENERA" 
@@ -56,11 +104,41 @@ const Header = () => {
           </div>
         </div>
         
-        <div className="flex items-center space-x-2 sm:space-x-4"> {/* Ajusté un poco el espaciado para dar cabida al nuevo botón */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <ul className="hidden md:flex items-center space-x-8 text-lg">
-            <li><NavLink to="/inmobiliaria" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Inmobiliaria</NavLink></li>
-            <li><NavLink to="/catering" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Catering</NavLink></li>
-            <li><NavLink to="/tecnologia" style={({ isActive }) => isActive ? activeLinkStyle : undefined} className="hover:text-light-accent dark:hover:text-brand-gold transition-colors">Tecnología</NavLink></li>
+            <li>
+              <a 
+                href="#inicio"
+                onClick={(e) => scrollToSection('#inicio', e)}
+                className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
+                  isInicioActive ? 'text-light-accent dark:text-brand-gold underline' : ''
+                }`}
+              >
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#quienes-somos"
+                onClick={(e) => scrollToSection('#quienes-somos', e)}
+                className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
+                  isQuienesSomosActive ? 'text-light-accent dark:text-brand-gold underline' : ''
+                }`}
+              >
+                Quienes Somos
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#experiencia"
+                onClick={(e) => scrollToSection('#experiencia', e)}
+                className={`hover:text-light-accent dark:hover:text-brand-gold transition-colors ${
+                  isExperienciaActive ? 'text-light-accent dark:text-brand-gold underline' : ''
+                }`}
+              >
+                Experiencia
+              </a>
+            </li>
           </ul>
           
           <button 
@@ -70,17 +148,17 @@ const Header = () => {
             Contáctanos
           </button>
           
-          {/* =============================================== */}
-          {/* BOTÓN DE MÚSICA AÑADIDO AQUÍ                  */}
-          {/* =============================================== */}
           <AudioToggleButton />
-          {/* =============================================== */}
 
           <button onClick={toggleTheme} className="p-2 rounded-full bg-light-subtle dark:bg-gray-800">
             {theme === 'light' ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-text" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
             )}
           </button>
         </div>

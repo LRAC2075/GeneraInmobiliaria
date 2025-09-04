@@ -27,12 +27,13 @@ const useIntersectionObserver = (options) => {
   return [setNode, entry?.isIntersecting];
 };
 
-// Componente animado reutilizable que envuelve cada sección
-const AnimatedSection = ({ children, className = '' }) => {
+// Componente animado reutilizable
+const AnimatedSection = ({ children, className = '', id = '' }) => {
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
   return (
     <section 
       ref={setNode}
+      id={id}
       className={`${className} transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
     >
       {children}
@@ -40,7 +41,7 @@ const AnimatedSection = ({ children, className = '' }) => {
   );
 };
 
-// Sub-componente para la lista de características de cada servicio
+// Sub-componente para la lista de características
 const ServiceFeatureList = ({ features }) => (
   <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
     {features.map((feature, index) => (
@@ -63,7 +64,6 @@ const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageL
     <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* --- INICIO: EFECTO ZOOM APLICADO --- */}
           <div className={`${imageOrder} overflow-hidden rounded-lg shadow-2xl`}>
             <img 
               src={imageUrl} 
@@ -71,7 +71,6 @@ const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageL
               className="w-full h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-110" 
             />
           </div>
-          {/* --- FIN: EFECTO ZOOM APLICADO --- */}
           <div className={textOrder}>
             <h3 className="text-4xl font-bold text-light-text dark:text-white mb-4">{title}</h3>
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">{description}</p>
@@ -89,7 +88,7 @@ const ServiceSection = ({ imageUrl, title, description, features, linkTo, imageL
   );
 };
 
-// Sub-componente para las tarjetas de proceso en el CTA final
+// Sub-componente para las tarjetas de proceso
 const ProcessHighlightCard = ({ iconPath, title, description }) => (
     <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
         <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
@@ -102,15 +101,11 @@ const ProcessHighlightCard = ({ iconPath, title, description }) => (
     </div>
 );
 
-// En tu archivo HomePage.jsx
-
-// Sub-componente para contador animado (VERSIÓN CORREGIDA)
+// Componente contador animado
 const AnimatedCounter = ({ end, suffix = '', title }) => {
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5 });
-  // --- CAMBIO 1: Añadimos un estado para recordar si la animación ya ocurrió ---
   const [hasAnimated, setHasAnimated] = useState(false);
 
-  // --- CAMBIO 2: Usamos useEffect para actualizar el estado solo una vez ---
   useEffect(() => {
     if (isVisible && !hasAnimated) {
       setHasAnimated(true);
@@ -120,7 +115,6 @@ const AnimatedCounter = ({ end, suffix = '', title }) => {
   return (
     <div ref={setNode} className="text-center">
       <p className="text-4xl md:text-5xl font-bold text-light-accent dark:text-brand-gold">
-        {/* --- CAMBIO 3: La lógica ahora depende de si ya se ha animado --- */}
         {hasAnimated ? <CountUp end={end} duration={2.5} /> : '0'}
         {suffix}
       </p>
@@ -132,6 +126,36 @@ const AnimatedCounter = ({ end, suffix = '', title }) => {
 const HomePage = () => {
   const { openModal } = useModal();
   
+  // Efecto para manejar hash al cargar la página
+  useEffect(() => {
+    const handleHashOnLoad = () => {
+      if (window.location.hash) {
+        setTimeout(() => {
+          const element = document.querySelector(window.location.hash);
+          if (element) {
+            const headerOffset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
+      }
+    };
+
+    handleHashOnLoad();
+
+    const handleHashChange = () => {
+      handleHashOnLoad();
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const heroSlides = [
     { img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop' },
     { img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2070&auto=format&fit=crop' },
@@ -140,7 +164,8 @@ const HomePage = () => {
 
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
-      <section className="relative h-screen w-full text-center">
+      {/* ================= SECCIÓN INICIO ================= */}
+      <section id="inicio" className="relative h-screen w-full text-center">
           <Swiper
           modules={[Autoplay, EffectFade]} 
           spaceBetween={30}
@@ -185,12 +210,13 @@ const HomePage = () => {
         </div>
       </section>
 
-      <AnimatedSection className="py-16 sm:py-24">
+      {/* ================= SECCIÓN QUIÉNES SOMOS ================= */}
+      <AnimatedSection id="quienes-somos" className="py-16 sm:py-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="text-center flex flex-col justify-center h-full">
               <SectionHeader
-                title="Nuestra Trayectoria"
+                title="Quiénes Somos"
                 subtitle="GENERA es el resultado de la visión y pasión por la excelencia. Fundada en 2005, nuestra misión siempre ha sido la de transformar ideas en realidades tangibles, superando las expectativas en cada proyecto."
                 className="max-w-3xl mx-auto mb-8" 
               />
@@ -215,30 +241,33 @@ const HomePage = () => {
         </div>
       </AnimatedSection>
       
-      <ServiceSection
-        imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop"
-        title="Desarrollo Inmobiliario"
-        description="Creamos espacios residenciales y comerciales que definen el lujo y la funcionalidad. Desde la concepción hasta la entrega, gestionamos cada detalle para construir propiedades de valor duradero."
-        features={['Consultoría y Adquisición', 'Diseño Arquitectónico', 'Construcción de Alta Gama', 'Gestión de Proyectos']}
-        linkTo="/inmobiliaria"
-        imageLeft={true}
-      />
-      <ServiceSection
-        imageUrl="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop"
-        title="Eventos y Catering"
-        description="Producimos eventos memorables con un servicio de catering de clase mundial. Nos especializamos en crear experiencias inmersivas, cuidando la gastronomía, el ambiente y la logística para cualquier ocasión, desde reuniones corporativas hasta celebraciones privadas."
-        features={['Planificación Integral', 'Catering Gourmet', 'Diseño de Ambientes', 'Coordinación Logística']}
-        linkTo="/catering"
-        imageLeft={false}
-      />
-      <ServiceSection
-        imageUrl="https://images.unsplash.com/photo-1534430480872-3498386e7856?q=80&w=2070&auto=format&fit=crop"
-        title="Tecnología de Diseño e Iluminación"
-        description="Integramos soluciones tecnológicas de vanguardia para transformar cualquier espacio. Nuestro equipo experto diseña e implementa sistemas de automatización, sonido envolvente y proyectos de iluminación artística que crean atmósferas únicas y funcionales."
-        features={['Domótica y Automatización', 'Diseño de Iluminación LED', 'Sistemas de Audio y Video', 'Instalaciones Interactivas']}
-        linkTo="/tecnologia"
-        imageLeft={true}
-      />
+      {/* ================= SECCIÓN EXPERIENCIA ================= */}
+      <div id="experiencia">
+        <ServiceSection
+          imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop"
+          title="Desarrollo Inmobiliario"
+          description="Creamos espacios residenciales y comerciales que definen el lujo y la funcionalidad. Desde la concepción hasta la entrega, gestionamos cada detalle para construir propiedades de valor duradero."
+          features={['Consultoría y Adquisición', 'Diseño Arquitectónico', 'Construcción de Alta Gama', 'Gestión de Proyectos']}
+          linkTo="/inmobiliaria"
+          imageLeft={true}
+        />
+        <ServiceSection
+          imageUrl="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop"
+          title="Eventos y Catering"
+          description="Producimos eventos memorables con un servicio de catering de clase mundial. Nos especializamos en crear experiencias inmersivas, cuidando la gastronomía, el ambiente y la logística para cualquier ocasión, desde reuniones corporativas hasta celebraciones privadas."
+          features={['Planificación Integral', 'Catering Gourmet', 'Diseño de Ambientes', 'Coordinación Logística']}
+          linkTo="/catering"
+          imageLeft={false}
+        />
+        <ServiceSection
+          imageUrl="https://images.unsplash.com/photo-1534430480872-3498386e7856?q=80&w=2070&auto=format&fit=crop"
+          title="Tecnología de Diseño e Iluminación"
+          description="Integramos soluciones tecnológicas de vanguardia para transformar cualquier espacio. Nuestro equipo experto diseña e implementa sistemas de automatización, sonido envolvente y proyectos de iluminación artística que crean atmósferas únicas y funcionales."
+          features={['Domótica y Automatización', 'Diseño de Iluminación LED', 'Sistemas de Audio y Video', 'Instalaciones Interactivas']}
+          linkTo="/tecnologia"
+          imageLeft={true}
+        />
+      </div>
 
       <AnimatedSection className="py-16 sm:py-24 text-center bg-light-subtle dark:bg-gray-800">
         <div className="container mx-auto px-4">
