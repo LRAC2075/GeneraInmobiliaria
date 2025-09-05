@@ -43,27 +43,27 @@ const AnimatedSection = ({ children, className = '', id = '' }) => {
 
 // Nuevo componente: Tarjeta de Servicio
 const ServiceCard = ({ icon, title, description, features, linkTo }) => (
-  <div className="bg-neutral-50 dark:bg-neutral-900 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-2">
-    <div className="flex items-center justify-center h-16 w-16 mx-auto mb-6 bg-accent-600 dark:bg-accent-500 rounded-full">
+  <div className="bg-light-card dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-2">
+    <div className="flex items-center justify-center h-16 w-16 mx-auto mb-6 bg-light-accent dark:bg-brand-gold rounded-full">
       {icon}
     </div>
-    <h3 className="text-2xl font-bold text-primary-900 dark:text-neutral-100 mb-4 text-center">{title}</h3>
-    <p className="text-neutral-600 dark:text-neutral-400 mb-6 text-center">{description}</p>
+    <h3 className="text-2xl font-bold text-light-text dark:text-white mb-4 text-center">{title}</h3>
+    <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">{description}</p>
     
     <div className="mb-6">
       {features.map((feature, index) => (
         <div key={index} className="flex items-center space-x-3 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-accent-600 dark:text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          <span className="text-neutral-600 dark:text-neutral-400 text-sm">{feature}</span>
+          <span className="text-gray-600 dark:text-gray-400 text-sm">{feature}</span>
         </div>
       ))}
     </div>
     
     <Link
       to={linkTo}
-      className="block w-full bg-accent-600 dark:bg-accent-500 text-primary-50 dark:text-primary-900 font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity text-center"
+      className="block w-full bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity text-center"
     >
       Descubrir más
     </Link>
@@ -83,25 +83,25 @@ const AnimatedCounter = ({ end, suffix = '', title }) => {
 
   return (
     <div ref={setNode} className="text-center">
-      <p className="text-4xl md:text-5xl font-bold text-accent-600 dark:text-accent-500">
+      <p className="text-4xl md:text-5xl font-bold text-light-accent dark:text-brand-gold">
         {hasAnimated ? <CountUp end={end} duration={2.5} /> : '0'}
         {suffix}
       </p>
-      <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400 mt-2">{title}</p>
+      <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-2">{title}</p>
     </div>
   );
 };
 
 // Sub-componente para las tarjetas de proceso (sin cambios)
 const ProcessHighlightCard = ({ iconPath, title, description }) => (
-  <div className="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg shadow-md text-center">
-    <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-neutral-100 dark:bg-neutral-900 rounded-full">
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent-600 dark:text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
+    <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-accent dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
       </svg>
     </div>
-    <h4 className="font-bold text-lg text-primary-900 dark:text-neutral-100 mb-2">{title}</h4>
-    <p className="text-neutral-600 dark:text-neutral-400 text-sm">{description}</p>
+    <h4 className="font-bold text-lg text-light-text dark:text-white mb-2">{title}</h4>
+    <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
   </div>
 );
 
@@ -177,7 +177,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="bg-neutral-50 dark:bg-neutral-900">
+    <div className="bg-light-bg dark:bg-brand-dark">
       {/* ================= SECCIÓN INICIO ================= */}
       <section id="inicio" className="relative h-screen w-full text-center">
         <Swiper
@@ -203,10 +203,10 @@ const HomePage = () => {
         
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <div className="relative px-4">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-50 tracking-tight leading-tight mb-4">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-4">
               Transformando Ideas en Realidad
             </h1>
-            <p className="text-lg md:text-xl text-neutral-300 max-w-3xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
               Soluciones de vanguardia en desarrollo inmobiliario, producción de eventos y tecnología de diseño.
             </p>
           </div>
@@ -223,7 +223,7 @@ const HomePage = () => {
                 subtitle="GENERA es el resultado de la visión y pasión por la excelencia. Fundada en 2005, nuestra misión siempre ha sido transformar ideas en realidades tangibles, superando expectativas en cada proyecto."
                 className="max-w-3xl mx-auto md:mx-0 mb-8" 
               />
-              <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed mb-8">
+              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
                 Creemos en la fusión de la artesanía tradicional con la innovación tecnológica. Este enfoque nos permite entregar resultados que no solo son estéticamente impecables, sino también funcionales y sostenibles a largo plazo.
               </p>
             </div>
@@ -239,7 +239,7 @@ const HomePage = () => {
       </AnimatedSection>
 
       {/* ================= SECCIÓN NUESTROS SERVICIOS ================= */}
-      <AnimatedSection className="py-16 sm:py-24 bg-neutral-100 dark:bg-neutral-950">
+      <AnimatedSection className="py-16 sm:py-24 bg-light-subtle dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Nuestros Servicios"
@@ -274,23 +274,23 @@ const HomePage = () => {
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Columna de Logros Destacados */}
             <div>
-              <h3 className="text-3xl font-bold text-primary-900 dark:text-neutral-100 mb-6">Logros Destacados</h3>
+              <h3 className="text-3xl font-bold text-light-text dark:text-white mb-6">Logros Destacados</h3>
               <ul className="space-y-4">
                 <li className="flex items-start space-x-3">
-                  <span className="h-2 w-2 bg-accent-600 dark:bg-accent-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span className="text-neutral-600 dark:text-neutral-400">Más de 50 proyectos inmobiliarios entregados</span>
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Más de 50 proyectos inmobiliarios entregados</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <span className="h-2 w-2 bg-accent-600 dark:bg-accent-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span className="text-neutral-600 dark:text-neutral-400">Eventos corporativos para empresas Fortune 500</span>
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Eventos corporativos para empresas Fortune 500</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <span className="h-2 w-2 bg-accent-600 dark:bg-accent-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span className="text-neutral-600 dark:text-neutral-400">Tecnología implementada en espacios premium</span>
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Tecnología implementada en espacios premium</span>
                 </li>
                 <li className="flex items-start space-x-3">
-                  <span className="h-2 w-2 bg-accent-600 dark:bg-accent-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span className="text-neutral-600 dark:text-neutral-400">Reconocimientos por innovación y diseño</span>
+                  <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-gray-600 dark:text-gray-400">Reconocimientos por innovación y diseño</span>
                 </li>
               </ul>
             </div>
@@ -316,10 +316,10 @@ const HomePage = () => {
       </AnimatedSection>
 
       {/* ================= SECCIÓN CALL TO ACTION ================= */}
-      <AnimatedSection className="py-16 sm:py-24 text-center bg-primary-50 dark:bg-primary-900">
+      <AnimatedSection className="py-16 sm:py-24 text-center bg-light-subtle dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-primary-900 dark:text-neutral-100 mb-4">¿Tienes un proyecto en mente?</h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-12">
+          <h2 className="text-4xl font-bold text-light-text dark:text-white mb-4">¿Tienes un proyecto en mente?</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12">
             Permítenos ayudarte a hacerlo realidad. Nuestro proceso está diseñado para ser transparente, colaborativo y centrado en la excelencia.
           </p>
           
@@ -343,7 +343,7 @@ const HomePage = () => {
 
           <button
             onClick={openModal}
-            className="inline-block bg-accent-600 dark:bg-accent-500 text-primary-50 dark:text-primary-900 font-bold text-lg px-10 py-4 rounded-lg hover:opacity-90 transition-colors"
+            className="inline-block bg-light-accent dark:bg-brand-gold text-white dark:text-brand-dark font-bold text-lg px-10 py-4 rounded-lg hover:opacity-90 transition-colors"
           >
             Inicia tu Proyecto
           </button>
