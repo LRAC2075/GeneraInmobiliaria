@@ -141,7 +141,7 @@ const Header = () => {
                   isQuienesSomosActive ? 'text-light-accent dark:text-brand-gold underline' : ''
                 }`}
               >
-                Quienes Somos
+                Quiénes Somos
               </a>
             </li>
             <li>

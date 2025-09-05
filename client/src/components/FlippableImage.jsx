@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Check, ImageIcon, AlertTriangle } from 'lucide-react';
 
-const FlippableImage = ({ src, title, description, points = [], accentColor = 'orange' }) => {
+const FlippableImage = ({ src, title, description, points = [] }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [imageStatus, setImageStatus] = useState('loading');
 
@@ -23,38 +23,19 @@ const FlippableImage = ({ src, title, description, points = [], accentColor = 'o
     };
   }, [src]);
 
-  const accentColors = {
-    orange: {
-      bgGradient: 'from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800',
-      separator: 'bg-orange-300',
-      check: 'text-orange-200'
-    },
-    teal: {
-      bgGradient: 'from-teal-600 to-teal-700 dark:from-teal-700 dark:to-teal-800',
-      separator: 'bg-teal-300',
-      check: 'text-teal-200'
-    },
-    sky: {
-      bgGradient: 'from-sky-600 to-sky-700 dark:from-sky-700 dark:to-sky-800',
-      separator: 'bg-sky-300',
-      check: 'text-sky-200'
-    }
-  };
-  const selectedAccent = accentColors[accentColor] || accentColors.orange;
-
   const renderFrontContent = () => {
     switch (imageStatus) {
       case 'loading':
         return (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-lg">
-            <ImageIcon className="w-12 h-12 text-gray-400 dark:text-gray-500 animate-pulse" />
+          <div className="w-full h-full flex items-center justify-center bg-neutral-200 dark:bg-neutral-700 rounded-lg">
+            <ImageIcon className="w-12 h-12 text-neutral-400 dark:text-neutral-500 animate-pulse" />
           </div>
         );
       case 'error':
         return (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-lg p-4 text-center">
+          <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-200 dark:bg-neutral-700 rounded-lg p-4 text-center">
             <AlertTriangle className="w-12 h-12 text-red-400 dark:text-red-500 mb-2" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">No se pudo cargar la imagen.</span>
+            <span className="text-sm text-neutral-600 dark:text-neutral-400">No se pudo cargar la imagen.</span>
           </div>
         );
       case 'loaded':
@@ -90,7 +71,7 @@ const FlippableImage = ({ src, title, description, points = [], accentColor = 'o
 
         {/* Lado Trasero (Reverso) con texto responsivo mejorado */}
         <div
-          className={`absolute w-full h-full bg-gradient-to-br ${selectedAccent.bgGradient} rounded-lg shadow-lg p-4 sm:p-6 flex flex-col justify-center text-center`}
+          className="absolute w-full h-full bg-gradient-to-br from-accent-600 to-accent-700 dark:from-accent-700 dark:to-accent-800 rounded-lg shadow-lg p-4 sm:p-6 flex flex-col justify-center text-center"
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
@@ -102,11 +83,11 @@ const FlippableImage = ({ src, title, description, points = [], accentColor = 'o
             
             {points && points.length > 0 && (
               <>
-                <div className={`w-1/3 h-px ${selectedAccent.separator} bg-opacity-75 mb-4 mx-auto`}></div>
+                <div className="w-1/3 h-px bg-accent-300 bg-opacity-75 mb-4 mx-auto"></div>
                 <ul className="space-y-2 inline-block text-left mx-auto">
                   {points.map((point, index) => (
                     <li key={index} className="flex items-start text-sm md:text-base">
-                      <Check className={`w-4 h-4 mr-2 mt-1 flex-shrink-0 ${selectedAccent.check}`} />
+                      <Check className="w-4 h-4 mr-2 mt-1 flex-shrink-0 text-accent-200" />
                       <span>{point}</span>
                     </li>
                   ))}

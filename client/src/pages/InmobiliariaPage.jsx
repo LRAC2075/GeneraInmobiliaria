@@ -263,7 +263,7 @@ export default function InmobiliariaPage() {
         </section>
 
         {/* --- Sección CTA --- */}
-        <section className="py-20 px-4 bg-teal-500 dark:bg-teal-800 text-white">
+        <section className="py-20 px-4 bg-accent-600 dark:bg-accent-800 text-white">
           <div className="container mx-auto text-center">
             <AnimatedSection>
               <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Interesado en una Propiedad?</h2>
