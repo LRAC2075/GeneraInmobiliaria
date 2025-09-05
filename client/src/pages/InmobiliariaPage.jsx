@@ -59,9 +59,9 @@ const TestimonialCarousel = ({ testimonials }) => {
           key={index} 
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
         >
-          <p className="text-xl italic text-gray-700 dark:text-gray-300">"{testimonial.quote}"</p>
-          <p className="mt-4 font-bold text-gray-800 dark:text-white">{testimonial.name}</p>
-          <p className="text-sm text-teal-600 dark:text-teal-400">{testimonial.location}</p>
+          <p className="text-xl italic text-neutral-600 dark:text-neutral-300">"{testimonial.quote}"</p>
+          <p className="mt-4 font-bold text-primary-800 dark:text-neutral-100">{testimonial.name}</p>
+          <p className="text-sm text-accent-600 dark:text-accent-500">{testimonial.location}</p>
         </div>
       ))}
     </div>
@@ -127,7 +127,7 @@ export default function InmobiliariaPage() {
   const filterOptions = ['todas', 'Cancún', 'Polanco', 'Tulum', 'Valle de Bravo'];
 
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div className="bg-neutral-50 dark:bg-neutral-900">
       {/* --- Hero Banner --- */}
       <section 
         className="relative w-full h-[70vh] bg-cover bg-center flex items-center justify-center text-center"
@@ -136,13 +136,13 @@ export default function InmobiliariaPage() {
         <div className="absolute inset-0 bg-black bg-opacity-50" />
         <AnimatedSection className="relative z-10 px-4">
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">Tu Próximo Espacio Exclusivo te Espera</h1>
-          <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">Descubre propiedades que definen el lujo y la vanguardia.</p>
+          <p className="mt-4 text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto">Descubre propiedades que definen el lujo y la vanguardia.</p>
         </AnimatedSection>
       </section>
 
       <main>
         {/* --- Sección de Nuestro Compromiso (Diseño de línea mejorado) --- */}
-        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 px-4 bg-neutral-100 dark:bg-neutral-800">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader
@@ -154,8 +154,8 @@ export default function InmobiliariaPage() {
               {/* Conectores curvos para desktop */}
               <div className="absolute top-8 left-0 w-full h-full hidden md:block">
                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0">
-                  <path d="M 16.66% 40 C 33.33% 40, 33.33% 80, 50% 80" strokeDasharray="5, 5" className="stroke-current text-teal-300 dark:text-teal-700" strokeWidth="2" fill="none"/>
-                  <path d="M 50% 80 C 66.66% 80, 66.66% 40, 83.33% 40" strokeDasharray="5, 5" className="stroke-current text-teal-300 dark:text-teal-700" strokeWidth="2" fill="none"/>
+                  <path d="M 16.66% 40 C 33.33% 40, 33.33% 80, 50% 80" strokeDasharray="5, 5" className="stroke-current text-accent-300 dark:text-accent-700" strokeWidth="2" fill="none"/>
+                  <path d="M 50% 80 C 66.66% 80, 66.66% 40, 83.33% 40" strokeDasharray="5, 5" className="stroke-current text-accent-300 dark:text-accent-700" strokeWidth="2" fill="none"/>
                 </svg>
               </div>
 
@@ -166,12 +166,12 @@ export default function InmobiliariaPage() {
               ].map((step, index) => (
                 <AnimatedSection key={index} className="flex-1 z-10" style={{ transitionDelay: `${index * 200}ms` }}>
                   <div className="flex items-start md:flex-col md:items-center md:text-center">
-                    <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-gray-50 dark:border-gray-800 mb-4">
+                    <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-accent-600 text-primary-50 font-bold text-2xl rounded-full border-4 border-neutral-50 dark:border-neutral-800 mb-4">
                       {step.number}
                     </div>
                     <div className="ml-6 md:ml-0">
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{step.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-400">{step.description}</p>
+                      <h3 className="text-xl font-bold text-primary-800 dark:text-neutral-100 mb-2">{step.title}</h3>
+                      <p className="text-neutral-600 dark:text-neutral-400">{step.description}</p>
                     </div>
                   </div>
                 </AnimatedSection>
@@ -196,7 +196,7 @@ export default function InmobiliariaPage() {
         </section>
 
         {/* --- Sección de Propiedades --- */}
-        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 px-4 bg-neutral-100 dark:bg-neutral-800">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader 
@@ -213,8 +213,8 @@ export default function InmobiliariaPage() {
                   onClick={() => setActiveFilter(option)}
                   className={`px-5 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ${
                     activeFilter === option
-                      ? 'bg-teal-500 text-white shadow-md'
-                      : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-accent-600 text-primary-50 shadow-md'
+                      : 'bg-neutral-50 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-600'
                   }`}
                 >
                   {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -228,7 +228,7 @@ export default function InmobiliariaPage() {
                 filteredPropiedades.map((prop, index) => (
                   <AnimatedSection key={prop.id} style={{ transitionDelay: `${index * 100}ms` }}>
                     <Link to={`/inmobiliaria/${prop.id}`} className="block group h-full">
-                      <div className="relative bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:dark:shadow-teal-500/20 group-hover:-translate-y-2">
+                      <div className="relative bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:dark:shadow-accent-500/20 group-hover:-translate-y-2">
                         {/* --- INICIO: EFECTO ZOOM APLICADO --- */}
                         <div className="relative overflow-hidden">
                           <img 
@@ -238,17 +238,17 @@ export default function InmobiliariaPage() {
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                           <p className="absolute bottom-4 left-4 text-white text-lg font-semibold">{prop.nombre}</p>
-                          <button onClick={(e) => toggleFavorito(e, prop.id)} className="absolute top-4 right-4 bg-black/40 p-2 rounded-full text-white hover:bg-red-500 transition-colors z-10">
+                          <button onClick={(e) => toggleFavorito(e, prop.id)} className="absolute top-4 right-4 bg-black/40 p-2 rounded-full text-white hover:bg-accent-500 transition-colors z-10">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" fill={favoritos.includes(prop.id) ? 'currentColor' : 'none'}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                           </button>
                         </div>
                         {/* --- FIN: EFECTO ZOOM APLICADO --- */}
                         <div className="p-6">
-                          <p className="text-teal-600 dark:text-teal-400 font-bold text-2xl mb-4">${prop.precio.toLocaleString()}</p>
-                          <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                            <span className="flex items-center"><Bed className="w-5 h-5 mr-2 text-teal-500" /> {prop.habitaciones} hab.</span>
-                            <span className="flex items-center"><Bath className="w-5 h-5 mr-2 text-teal-500" /> {prop.banos} baños</span>
-                            <span className="flex items-center"><Ruler className="w-5 h-5 mr-2 text-teal-500" /> {prop.metrosCuadrados} m²</span>
+                          <p className="text-accent-600 dark:text-accent-500 font-bold text-2xl mb-4">${prop.precio.toLocaleString()}</p>
+                          <div className="flex justify-between text-neutral-600 dark:text-neutral-400">
+                            <span className="flex items-center"><Bed className="w-5 h-5 mr-2 text-accent-600 dark:text-accent-500" /> {prop.habitaciones} hab.</span>
+                            <span className="flex items-center"><Bath className="w-5 h-5 mr-2 text-accent-600 dark:text-accent-500" /> {prop.banos} baños</span>
+                            <span className="flex items-center"><Ruler className="w-5 h-5 mr-2 text-accent-600 dark:text-accent-500" /> {prop.metrosCuadrados} m²</span>
                           </div>
                         </div>
                       </div>
@@ -256,31 +256,32 @@ export default function InmobiliariaPage() {
                   </AnimatedSection>
                 ))
               ) : (
-                <p className="md:col-span-3 text-center text-gray-500 dark:text-gray-400 py-16">No se encontraron propiedades con los filtros seleccionados.</p>
+                <p className="md:col-span-3 text-center text-neutral-500 dark:text-neutral-400 py-16">No se encontraron propiedades con los filtros seleccionados.</p>
               )}
             </div>
           </div>
         </section>
 
         {/* --- Sección CTA --- */}
-        <section className="py-20 px-4 bg-accent-600 dark:bg-accent-800 text-white">
+        <section className="py-20 px-4 bg-accent-600 dark:bg-accent-700 text-primary-50">
           <div className="container mx-auto text-center">
             <AnimatedSection>
               <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Interesado en una Propiedad?</h2>
-              <p className="text-lg text-teal-100 dark:text-teal-200 max-w-2xl mx-auto mb-8">
+              <p className="text-lg text-accent-100 dark:text-accent-200 max-w-2xl mx-auto mb-8">
                 Nuestro equipo de asesores está listo para brindarte toda la información que necesites. Contáctanos para agendar una visita.
               </p>
               <button
                 onClick={openModal}
-                className="bg-white text-teal-600 font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition-transform duration-300 shadow-lg"
+                className="bg-neutral-50 dark:bg-neutral-800 text-accent-600 dark:text-accent-500 font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition-transform duration-300 shadow-lg"
               >
                 Contactar a un Agente
               </button>
             </AnimatedSection>
           </div>
         </section>
-                {/* --- Sección de Otros Servicios --- */}
-        <section className="py-20 px-4 bg-white dark:bg-gray-900">
+
+        {/* --- Sección de Otros Servicios --- */}
+        <section className="py-20 px-4 bg-neutral-50 dark:bg-neutral-900">
           <div className="container mx-auto">
             <AnimatedSection>
               <SectionHeader 
@@ -297,7 +298,7 @@ export default function InmobiliariaPage() {
                   className="block group h-full"
                   aria-label="Explorar servicios de Catering"
                 >
-                  <div className="relative bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
+                  <div className="relative bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
                     <div className="relative overflow-hidden h-48">
                       <img 
                         src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
@@ -307,14 +308,14 @@ export default function InmobiliariaPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                       <div className="absolute bottom-4 left-4">
                         <h3 className="text-xl font-bold text-white">Catering</h3>
-                        <p className="text-teal-300 text-sm mt-1">Experiencias gastronómicas excepcionales</p>
+                        <p className="text-accent-400 text-sm mt-1">Experiencias gastronómicas excepcionales</p>
                       </div>
                     </div>
                     <div className="p-6">
-                      <p className="text-gray-600 dark:text-gray-300">
+                      <p className="text-neutral-600 dark:text-neutral-300">
                         Servicios culinarios premium para eventos corporativos y celebraciones especiales, con menús personalizados y atención de primera clase.
                       </p>
-                      <div className="mt-4 flex items-center text-teal-600 dark:text-teal-400 font-semibold group-hover:underline">
+                      <div className="mt-4 flex items-center text-accent-600 dark:text-accent-500 font-semibold group-hover:underline">
                         Descubrir más
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -332,7 +333,7 @@ export default function InmobiliariaPage() {
                   className="block group h-full"
                   aria-label="Explorar servicios de Tecnología"
                 >
-                  <div className="relative bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
+                  <div className="relative bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden shadow-md h-full transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-2">
                     <div className="relative overflow-hidden h-48">
                       <img 
                         src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
@@ -342,14 +343,14 @@ export default function InmobiliariaPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                       <div className="absolute bottom-4 left-4">
                         <h3 className="text-xl font-bold text-white">Tecnología</h3>
-                        <p className="text-teal-300 text-sm mt-1">Soluciones digitales innovadoras</p>
+                        <p className="text-accent-400 text-sm mt-1">Soluciones digitales innovadoras</p>
                       </div>
                     </div>
                     <div className="p-6">
-                      <p className="text-gray-600 dark:text-gray-300">
+                      <p className="text-neutral-600 dark:text-neutral-300">
                         Desarrollo de software a medida, aplicaciones web y móviles, y consultoría tecnológica para transformar tu negocio digitalmente.
                       </p>
-                      <div className="mt-4 flex items-center text-teal-600 dark:text-teal-400 font-semibold group-hover:underline">
+                      <div className="mt-4 flex items-center text-accent-600 dark:text-accent-500 font-semibold group-hover:underline">
                         Descubrir más
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
