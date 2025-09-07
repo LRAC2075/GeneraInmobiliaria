@@ -10,6 +10,31 @@ import 'swiper/css/effect-fade';
 
 import CountUp from 'react-countup';
 
+const CustomCarousel = ({ slides, className, interval = 4000 }) => {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, interval);
+    return () => clearInterval(slideInterval);
+  }, [slides, interval]);
+
+  return (
+    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+            index === currentSlideIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ backgroundImage: `url(${slide.img})` }}
+        />
+      ))}
+    </div>
+  );
+};
+
 // Hook genérico para observar la intersección (sin cambios)
 const useIntersectionObserver = (options) => {
   const [entry, setEntry] = useState(null);
@@ -70,24 +95,45 @@ const ServiceCard = ({ icon, title, description, features, linkTo }) => (
   </div>
 );
 
-// Componente contador animado (sin cambios)
+// ===================== IMPLEMENTACIÓN DE CONTADOR ANIMADO CUSTOM =====================
+// Este componente reemplaza a 'react-countup'.
 const AnimatedCounter = ({ end, suffix = '', title }) => {
+  const [count, setCount] = useState(0);
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5 });
   const [hasAnimated, setHasAnimated] = useState(false);
+  const animationRef = useRef(null);
 
   useEffect(() => {
     if (isVisible && !hasAnimated) {
-      setHasAnimated(true);
+      let startTimestamp = null;
+      const duration = 2500;
+
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = timestamp - startTimestamp;
+        const newCount = Math.min(Math.floor((progress / duration) * end), end);
+        setCount(newCount);
+
+        if (progress < duration) {
+          animationRef.current = requestAnimationFrame(step);
+        } else {
+          setHasAnimated(true);
+        }
+      };
+
+      animationRef.current = requestAnimationFrame(step);
+
+      return () => cancelAnimationFrame(animationRef.current);
     }
-  }, [isVisible, hasAnimated]);
+  }, [isVisible, end, hasAnimated]);
 
   return (
     <div ref={setNode} className="text-center">
-      <p className="text-4xl md:text-5xl font-bold text-light-accent dark:text-brand-gold">
-        {hasAnimated ? <CountUp end={end} duration={2.5} /> : '0'}
+      <p className="text-4xl md:text-5xl font-bold text-accent-600 dark:text-accent-500">
+        {count}
         {suffix}
       </p>
-      <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-2">{title}</p>
+      <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400 mt-2">{title}</p>
     </div>
   );
 };
@@ -134,9 +180,20 @@ const HomePage = () => {
   }, []);
 
   const heroSlides = [
-    { img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop' },
-    { img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2070&auto=format&fit=crop' },
-    { img: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=2070&auto=format&fit=crop' }
+    { img: '/public/carrusel-1/1.jpg' },
+    { img: '/public/carrusel-1/2.jpg' },
+    { img: '/public/carrusel-1/3.jpg' },
+    { img: '/public/carrusel-1/4.jpg' },
+    { img: '/public/carrusel-1/5.jpg' },
+    { img: '/public/carrusel-1/6.jpg' }
+  ];
+
+  const experienceSlides = [
+    { img: '/public/carrusel-2/1.jpg' },
+    { img: '/public/carrusel-2/2.jpg' },
+    { img: '/public/carrusel-2/3.jpg' },
+    { img: '/public/carrusel-2/4.jpg' },
+    { img: '/public/carrusel-2/5.jpg' },
   ];
 
   // Datos para las tarjetas de servicios
@@ -175,6 +232,8 @@ const HomePage = () => {
       linkTo: "/tecnologia"
     }
   ];
+
+  
 
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
@@ -271,11 +330,11 @@ const HomePage = () => {
             className="text-center mb-16"
           />
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Columna de Logros Destacados */}
-            <div>
-              <h3 className="text-3xl font-bold text-light-text dark:text-white mb-6">Logros Destacados</h3>
-              <ul className="space-y-4">
+          <div className="mt-16 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+            {/* Columna de Logros Destacados - Centrada y con mejor alineación */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <h3 className="text-2xl md:text-3xl font-bold text-light-text dark:text-white mb-6">Logros Destacados</h3>
+              <ul className="space-y-3 md:space-y-4 mx-auto lg:mx-0 max-w-md">
                 <li className="flex items-start space-x-3">
                   <span className="h-2 w-2 bg-light-accent dark:bg-brand-gold rounded-full mt-2 flex-shrink-0"></span>
                   <span className="text-gray-600 dark:text-gray-400">Más de 50 proyectos inmobiliarios entregados</span>
@@ -295,18 +354,18 @@ const HomePage = () => {
               </ul>
             </div>
 
-            {/* Columna de la Imagen */}
-            <div className="h-80">
-              <img 
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop" 
-                alt="Logros y reconocimientos de GENERA"
-                className="rounded-lg shadow-2xl w-full h-full object-cover"
+            {/* Columna del Carrusel - Mejorada la alineación y responsividad */}
+            <div className="w-full lg:w-1/2 h-72 md:h-80 lg:h-96 rounded-lg overflow-hidden shadow-2xl">
+              <CustomCarousel 
+                slides={experienceSlides} 
+                className="h-full"
+                interval={3500}
               />
             </div>
           </div>
 
           {/* Contadores Animados con espaciado superior */}
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             <AnimatedCounter end={new Date().getFullYear() - 2005} title="Años de Trayectoria" />
             <AnimatedCounter end={150} suffix="+" title="Proyectos Completados" />
             <AnimatedCounter end={100} suffix="+" title="Clientes Satisfechos" />
