@@ -10,6 +10,43 @@ import 'swiper/css/effect-fade';
 
 import CountUp from 'react-countup';
 
+// Componente de imagen con respaldo para manejar errores
+const ImageWithFallback = ({ src, fallbackSrc, alt, className, ...props }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [loading, setLoading] = useState(true);
+
+  const handleError = () => {
+    if (fallbackSrc) {
+      setImgSrc(fallbackSrc);
+    }
+    setLoading(false);
+  };
+
+  const handleLoad = () => {
+    setLoading(false);
+  };
+
+  return (
+    <div className={`relative ${className}`}>
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 animate-pulse rounded-lg">
+          <svg className="w-10 h-10 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 0v24h-24v-24h24zm-4.684 16.922l-1.658-3.5-1.658 3.5h3.316zm-2.658-5.922h-2.316l-1.658 3.5-1.658-3.5h-2.316l3.5-7.422 3.5 7.422zm-9.342-1.422h2v1h-2v-1zm0-2h2v1h-2v-1zm1.5 10h-3.5v-7h2v5h1.5v2zm-2.5-9h-2v1h2v-1zm0 2h-2v1h2v-1zm0 2h-2v1h2v-1zm-3-4h-2v1h2v-1zm0 2h-2v1h2v-1zm0 2h-2v1h2v-1zm20-11h-20v20h20v-20zm-1 19h-18v-18h18v18z"/>
+          </svg>
+        </div>
+      )}
+      <img
+        src={imgSrc}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'} ${className}`}
+        onError={handleError}
+        onLoad={handleLoad}
+        {...props}
+      />
+    </div>
+  );
+};
+
 const CustomCarousel = ({ slides, className, interval = 4000 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -25,17 +62,23 @@ const CustomCarousel = ({ slides, className, interval = 4000 }) => {
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
             index === currentSlideIndex ? 'opacity-100' : 'opacity-0'
           }`}
-          style={{ backgroundImage: `url(${slide.img})` }}
-        />
+        >
+          <ImageWithFallback 
+            src={slide.img} 
+            fallbackSrc={slide.fallback}
+            alt={`Slide ${index + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
       ))}
     </div>
   );
 };
 
-// Hook genérico para observar la intersección (sin cambios)
+// Hook genérico para observar la intersección
 const useIntersectionObserver = (options) => {
   const [entry, setEntry] = useState(null);
   const [node, setNode] = useState(null);
@@ -52,7 +95,7 @@ const useIntersectionObserver = (options) => {
   return [setNode, entry?.isIntersecting];
 };
 
-// Componente animado reutilizable (sin cambios)
+// Componente animado reutilizable
 const AnimatedSection = ({ children, className = '', id = '' }) => {
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
   return (
@@ -66,7 +109,7 @@ const AnimatedSection = ({ children, className = '', id = '' }) => {
   );
 };
 
-// Nuevo componente: Tarjeta de Servicio
+// Componente: Tarjeta de Servicio
 const ServiceCard = ({ icon, title, description, features, linkTo }) => (
   <div className="bg-light-card dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-2">
     <div className="flex items-center justify-center h-16 w-16 mx-auto mb-6 bg-light-accent dark:bg-brand-gold rounded-full">
@@ -95,8 +138,7 @@ const ServiceCard = ({ icon, title, description, features, linkTo }) => (
   </div>
 );
 
-// ===================== IMPLEMENTACIÓN DE CONTADOR ANIMADO CUSTOM =====================
-// Este componente reemplaza a 'react-countup'.
+// Implementación de contador animado
 const AnimatedCounter = ({ end, suffix = '', title }) => {
   const [count, setCount] = useState(0);
   const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.5 });
@@ -138,7 +180,7 @@ const AnimatedCounter = ({ end, suffix = '', title }) => {
   );
 };
 
-// Sub-componente para las tarjetas de proceso (sin cambios)
+// Sub-componente para las tarjetas de proceso
 const ProcessHighlightCard = ({ iconPath, title, description }) => (
   <div className="bg-light-card dark:bg-gray-700 p-6 rounded-lg shadow-md text-center">
     <div className="flex items-center justify-center h-12 w-12 mx-auto mb-4 bg-light-subtle dark:bg-gray-800 rounded-full">
@@ -154,7 +196,7 @@ const ProcessHighlightCard = ({ iconPath, title, description }) => (
 const HomePage = () => {
   const { openModal } = useModal();
   
-  // Efecto para manejar hash al cargar la página (sin cambios)
+  // Efecto para manejar hash al cargar la página
   useEffect(() => {
     const handleHashOnLoad = () => {
       if (window.location.hash) {
@@ -179,21 +221,55 @@ const HomePage = () => {
     return () => window.removeEventListener('hashchange', handleHashOnLoad);
   }, []);
 
+  // Reemplaza estas URLs con las de tus imágenes subidas a un servicio externo
   const heroSlides = [
-    { img: '/public/carrusel-1/1.jpg' },
-    { img: '/public/carrusel-1/2.jpg' },
-    { img: '/public/carrusel-1/3.jpg' },
-    { img: '/public/carrusel-1/4.jpg' },
-    { img: '/public/carrusel-1/5.jpg' },
-    { img: '/public/carrusel-1/6.jpg' }
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265923/representacion-3d-del-modelo-de-casa_qy9qrs.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265929/surtido-plano-con-deliciosa-comida-brasilena_qfvbs2.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1600566753052-dc65a83d5bc4?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265924/rebanadas-de-filete-de-pollo-con-pan-zanahorias-coliflor-nabos-y-maiz-en-un-plato-negro_zlxjce.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265923/pantalla-de-tableta-digital-con-controlador-de-casa-inteligente-en-una-mesa-de-madera_nitbt4.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1600573472550-8090be0cac5f?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265921/mujer-joven-con-tecnologia-casera_mvo8k1.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265923/villa-de-lujo-moderna-con-piscina_cqkqpf.jpghttps://images.unsplash.com/photo-1600585154084-4e5fe7c39198', 
+      fallback: 'https://images.unsplash.com/photo-1600585154084-4e5fe7c39198?q=80&w=2070&auto=format&fit=crop'
+    }
   ];
 
   const experienceSlides = [
-    { img: '/public/carrusel-2/1.jpg' },
-    { img: '/public/carrusel-2/2.jpg' },
-    { img: '/public/carrusel-2/3.jpg' },
-    { img: '/public/carrusel-2/4.jpg' },
-    { img: '/public/carrusel-2/5.jpg' },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265934/grupo-de-personas-trabajando-en-un-plan-de-negocios-en-una-oficina_tkfchu.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265934/socios-comerciales-estrechando-la-mano-con-el-ingeniero-por-modelo-arquitectonico-en-la-reunion_yssy37.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265935/escena-de-teamwork_cgbt5i.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1932&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265937/guy-muestra-documento-una-nina-grupo-de-jovenes-autonomos-en-la-oficina-conversando-y-trabajando_yrytdv.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      img: 'https://res.cloudinary.com/dfwmro2x2/image/upload/v1757265934/grupo-de-personas-trabajando-en-un-plan-de-negocios-en-una-oficina_tkfchu.jpg', 
+      fallback: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop'
+    }
   ];
 
   // Datos para las tarjetas de servicios
@@ -233,8 +309,6 @@ const HomePage = () => {
     }
   ];
 
-  
-
   return (
     <div className="bg-light-bg dark:bg-brand-dark">
       {/* ================= SECCIÓN INICIO ================= */}
@@ -251,9 +325,11 @@ const HomePage = () => {
         >
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index} className="relative h-full w-full">
-              <div
+              <ImageWithFallback
+                src={slide.img}
+                fallbackSrc={slide.fallback}
+                alt={`Slide ${index + 1}`}
                 className="h-full w-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${slide.img})` }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-60" />
             </SwiperSlide>
@@ -287,9 +363,10 @@ const HomePage = () => {
               </p>
             </div>
             <div className="h-80 md:h-full">
-              <img 
-                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop" 
-                alt="Equipo de GENERA trabajando" 
+              <ImageWithFallback
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72"
+                fallbackSrc="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop"
+                alt="Equipo de GENERA trabajando"
                 className="rounded-lg shadow-2xl w-full h-full object-cover"
               />
             </div>
